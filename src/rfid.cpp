@@ -6,8 +6,11 @@
 
 #define OFFSET 1
 
-PN532_HSU pn532hsu(Serial2);
-PN532 nfc(pn532hsu);
+PN532_HSU pn532hsu1(Serial1);
+PN532 nfc1(pn532hsu1);
+
+PN532_HSU pn532hsu2(Serial2);
+PN532 nfc2(pn532hsu2);
 
 byte tags [2][2][4] = {
   {
@@ -26,10 +29,22 @@ Rfid::Rfid(Logic &logic)
 }
 
 void Rfid::setup() {
-  nfc.begin();
+  Serial1.begin(115200, SERIAL_8N1, A0, A1);
 
-  // NFC device
-  uint32_t versiondata = nfc.getFirmwareVersion();
+  nfc1.begin();
+  nfc2.begin();
+
+  uint32_t versiondata = nfc1.getFirmwareVersion();
+  if (! versiondata) {
+    Serial.print("Didn't find PN53x board");
+    while (1); // halt
+  }
+  
+  Serial.print("Firmware Version (PN5"); Serial.print((versiondata>>24) & 0xFF, HEX); 
+  Serial.print("): "); Serial.print((versiondata>>16) & 0xFF, DEC); 
+  Serial.print('.'); Serial.println((versiondata>>8) & 0xFF, DEC);
+
+  versiondata = nfc2.getFirmwareVersion();
   if (! versiondata) {
     Serial.print("Didn't find PN53x board");
     while (1); // halt
@@ -42,10 +57,12 @@ void Rfid::setup() {
   // Set the max number of retry attempts to read from a card
   // This prevents us from waiting forever for a card, which is
   // the default behaviour of the PN532.
-  nfc.setPassiveActivationRetries(0xFF);
+  nfc1.setPassiveActivationRetries(0xFF);
+  nfc2.setPassiveActivationRetries(0xFF);
 
   // configure board to read RFID tags
-  nfc.SAMConfig();
+  nfc1.SAMConfig();
+  nfc2.SAMConfig();
 
   Serial.println("\nReady to Scan...");
 }
@@ -55,7 +72,7 @@ void Rfid::handle() {
 
     RFID_STATE st = UNKNOWN;
     if (i == 0) {
-      st = checkForTagHSU(i, nfc);
+      st = checkForTagHSU(i, nfc1);
     } else {
       //st = checkForTagMFR(i, mfr);
     }
