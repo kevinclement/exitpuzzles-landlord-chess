@@ -2,6 +2,7 @@
 
 #include "Arduino.h"
 #include <PN532.h>
+#include <PN532_HSU.h>
 
 class Logic;
 
@@ -18,6 +19,15 @@ class Rfid {
   private:
     Logic &_logic;
     bool compareTags(uint8_t index);
+
+    PN532 nfc1;
+    PN532 nfc2;
+
+    PN532_HSU pn532hsu1;
+    PN532_HSU pn532hsu2;
+    
+    PN532 readers[NR_OF_READERS] = { nfc1, nfc2 };
+
     RFID_STATE checkForTagHSU(uint8_t index, PN532 nfc);
     String prettyState(uint8_t);
     void initReader(PN532 nfc, const char* label);

@@ -1,16 +1,8 @@
 #include "Arduino.h"
 #include "rfid.h"
 #include "logic.h"
-#include <PN532_HSU.h>
-#include <PN532.h>
 
 #define OFFSET 1
-
-PN532_HSU pn532hsu1(Serial1);
-PN532 nfc1(pn532hsu1);
-
-PN532_HSU pn532hsu2(Serial2);
-PN532 nfc2(pn532hsu2);
 
 byte tags [2][2][4] = {
   {
@@ -24,7 +16,11 @@ byte tags [2][2][4] = {
 };
 
 Rfid::Rfid(Logic &logic)
-: _logic(logic)
+: _logic(logic),
+  pn532hsu1(Serial1),
+  pn532hsu2(Serial2),
+  nfc1(pn532hsu1),
+  nfc2(pn532hsu2)
 {
 }
 
@@ -32,8 +28,8 @@ void Rfid::setup() {
   // Remap serial uart
   Serial1.begin(115200, SERIAL_8N1, A0, A1);
 
-  initReader(nfc1, "NFC1");
-  initReader(nfc2, "NFC2");
+  initReader(readers[0], "NFC1");
+  initReader(readers[1], "NFC2");
 
   Serial.println("\nReady to Scan...");
 }
@@ -42,12 +38,8 @@ void Rfid::handle() {
   for (uint8_t i = 0; i < NR_OF_READERS; i++) {
 
     RFID_STATE st = UNKNOWN;
-    if (i == 0) {
-      st = checkForTagHSU(i, nfc1);
-    } else {
-      st = checkForTagHSU(i, nfc2);
-    }
-
+    st = checkForTagHSU(i, readers[i]);
+    
     if (st != state[i]) {
       Serial.print("state changed for ");
       Serial.print(i + OFFSET);
