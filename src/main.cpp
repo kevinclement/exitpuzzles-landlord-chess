@@ -5,6 +5,11 @@ Logic logic;
 
 void(* resetFunc) (void) = 0;
 
+void debug() {
+  Serial.println("toggling debug of device...");
+  logic.debug = !logic.debug;
+}
+
 void readAnySerialMessage() {
   if (!Serial.available()) {
     return;
@@ -20,6 +25,8 @@ void readAnySerialMessage() {
     resetFunc();
   } else if (msg == "status" || msg == "s") {
     logic.status();
+  } else if (msg == "debug" || msg == "x") {
+    debug();
   } else {
     Serial.print("unknown command: ");
     Serial.println(msg);

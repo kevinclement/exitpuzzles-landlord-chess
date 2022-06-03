@@ -9,6 +9,7 @@ public:
   Logic();
   SerialManager serial;
   Rfid rfid;
+  bool debug;
 
   void setup();
   void handle();

@@ -103,6 +103,11 @@ bool Rfid::compareTags(uint8_t index) {
     }
   }
 
+  // unknown tag, if debugging write to serial to help add it to system
+  if (_logic.debug) {
+    Serial.printf("WARN: Unknown tag: { 0x%02X, 0x%02X, 0x%02X, 0x%02X }\n", readCards[index][0], readCards[index][1], readCards[index][2], readCards[index][3]);
+  }
+
   return false;
 }
 
