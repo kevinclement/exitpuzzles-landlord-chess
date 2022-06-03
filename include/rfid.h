@@ -20,6 +20,7 @@ class Rfid {
     bool compareTags(uint8_t index);
     RFID_STATE checkForTagHSU(uint8_t index, PN532 nfc);
     String prettyState(uint8_t);
+    void initReader(PN532 nfc, const char* label);
 
     bool tag_present_prev[NR_OF_READERS] = { false, false };
     bool tag_present[NR_OF_READERS] = { false, false };

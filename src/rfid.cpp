@@ -29,40 +29,11 @@ Rfid::Rfid(Logic &logic)
 }
 
 void Rfid::setup() {
+  // Remap serial uart
   Serial1.begin(115200, SERIAL_8N1, A0, A1);
 
-  nfc1.begin();
-  nfc2.begin();
-
-  uint32_t versiondata = nfc1.getFirmwareVersion();
-  if (! versiondata) {
-    Serial.print("Didn't find PN53x board");
-    while (1); // halt
-  }
-  
-  Serial.print("Firmware Version (PN5"); Serial.print((versiondata>>24) & 0xFF, HEX); 
-  Serial.print("): "); Serial.print((versiondata>>16) & 0xFF, DEC); 
-  Serial.print('.'); Serial.println((versiondata>>8) & 0xFF, DEC);
-
-  versiondata = nfc2.getFirmwareVersion();
-  if (! versiondata) {
-    Serial.print("Didn't find PN53x board");
-    while (1); // halt
-  }
-  
-  Serial.print("Firmware Version (PN5"); Serial.print((versiondata>>24) & 0xFF, HEX); 
-  Serial.print("): "); Serial.print((versiondata>>16) & 0xFF, DEC); 
-  Serial.print('.'); Serial.println((versiondata>>8) & 0xFF, DEC);
-
-  // Set the max number of retry attempts to read from a card
-  // This prevents us from waiting forever for a card, which is
-  // the default behaviour of the PN532.
-  nfc1.setPassiveActivationRetries(0xFF);
-  nfc2.setPassiveActivationRetries(0xFF);
-
-  // configure board to read RFID tags
-  nfc1.SAMConfig();
-  nfc2.SAMConfig();
+  initReader(nfc1, "NFC1");
+  initReader(nfc2, "NFC2");
 
   Serial.println("\nReady to Scan...");
 }
@@ -89,6 +60,30 @@ void Rfid::handle() {
       _logic.status();
     }
   }
+}
+
+void Rfid::initReader(PN532 nfc, const char* label) {
+  nfc.begin();
+
+  uint32_t versiondata = nfc.getFirmwareVersion();
+  if (! versiondata) {
+    Serial.print(label);
+    Serial.print(": Didn't find PN53x board");
+    while (1); // halt
+  }
+  
+  Serial.print(label);
+  Serial.print(": Firmware Version (PN5"); Serial.print((versiondata>>24) & 0xFF, HEX); 
+  Serial.print("): "); Serial.print((versiondata>>16) & 0xFF, DEC); 
+  Serial.print('.'); Serial.println((versiondata>>8) & 0xFF, DEC);
+
+  // Set the max number of retry attempts to read from a card
+  // This prevents us from waiting forever for a card, which is
+  // the default behaviour of the PN532.
+  nfc.setPassiveActivationRetries(0xFF);
+
+  // configure board to read RFID tags
+  nfc.SAMConfig();
 }
 
 RFID_STATE Rfid::checkForTagHSU(uint8_t index, PN532 nfc) {
