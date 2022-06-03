@@ -45,7 +45,7 @@ void Rfid::handle() {
     if (i == 0) {
       st = checkForTagHSU(i, nfc1);
     } else {
-      //st = checkForTagMFR(i, mfr);
+      st = checkForTagHSU(i, nfc2);
     }
 
     if (st != state[i]) {
