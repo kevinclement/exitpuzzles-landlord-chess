@@ -27,10 +27,10 @@ void readAnySerialMessage() {
 }
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   Serial.setTimeout(10);
   Serial.println("READY");
-  Serial.println("RFID Reader for rfid 4 and 5 by kevinc...\n");
+  Serial.println("Chess board by kevinc...\n");
 
   logic.setup();
   logic.status();

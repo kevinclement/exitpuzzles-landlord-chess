@@ -1,15 +1,13 @@
 #include "Arduino.h"
 #include "rfid.h"
 #include "logic.h"
-#include <SPI.h>
 #include <PN532_HSU.h>
 #include <PN532.h>
 
-#define OFFSET 4
+#define OFFSET 1
 
-PN532_HSU pn532hsu(Serial1);
+PN532_HSU pn532hsu(Serial2);
 PN532 nfc(pn532hsu);
-MFRC522 mfr(23, 21);
 
 byte tags [2][2][4] = {
   {
@@ -28,14 +26,7 @@ Rfid::Rfid(Logic &logic)
 }
 
 void Rfid::setup() {
-  SPI.begin();
-
-  mfr.PCD_Init();
   nfc.begin();
-
-  delay(4);
-  Serial.println();
-  mfr.PCD_DumpVersionToSerial();
 
   // NFC device
   uint32_t versiondata = nfc.getFirmwareVersion();
@@ -43,6 +34,7 @@ void Rfid::setup() {
     Serial.print("Didn't find PN53x board");
     while (1); // halt
   }
+  
   Serial.print("Firmware Version (PN5"); Serial.print((versiondata>>24) & 0xFF, HEX); 
   Serial.print("): "); Serial.print((versiondata>>16) & 0xFF, DEC); 
   Serial.print('.'); Serial.println((versiondata>>8) & 0xFF, DEC);
@@ -65,7 +57,7 @@ void Rfid::handle() {
     if (i == 0) {
       st = checkForTagHSU(i, nfc);
     } else {
-      st = checkForTagMFR(i, mfr);
+      //st = checkForTagMFR(i, mfr);
     }
 
     if (st != state[i]) {
@@ -80,57 +72,6 @@ void Rfid::handle() {
       _logic.status();
     }
   }
-}
-
-RFID_STATE Rfid::checkForTagMFR(uint8_t index, MFRC522 mfr) {
-  RFID_STATE st = state[index];
-  tag_present_prev[index] = tag_present[index];
-
-  error_counter[index] += 1;
-  if(error_counter[index] > 2){
-    tag_found[index] = false;
-  }
-  
-  // Detect Tag without looking for collisions
-  byte bufferATQA[2];
-  byte bufferSize = sizeof(bufferATQA);
-
-  // Reset baud rates
-  mfr.PCD_WriteRegister(mfr.TxModeReg, 0x00);
-  mfr.PCD_WriteRegister(mfr.RxModeReg, 0x00);
-
-  // Reset ModWidthReg
-  mfr.PCD_WriteRegister(mfr.ModWidthReg, 0x26);
-
-  MFRC522::StatusCode result = mfr.PICC_RequestA(bufferATQA, &bufferSize);
-
-  if(result == mfr.STATUS_OK){
-    if ( ! mfr.PICC_ReadCardSerial()) { //Since a PICC placed get Serial and continue   
-      return st;
-    }
-    error_counter[index] = 0;
-    tag_found[index] = true;
-
-    for ( uint8_t i = 0; i < 4; i++) {
-       readCards[index][i] = mfr.uid.uidByte[i];
-    }
-  }
-
-  tag_present[index] = tag_found[index];
-
-  // rising edge
-  if (tag_present[index] && !tag_present_prev[index]){
-    Serial.println("Tag found, checking...");
-    st = compareTags(index) ? CORRECT : INCORRECT;
-  }
-
-  // falling edge
-  if (!tag_present[index] && tag_present_prev[index]){
-    Serial.println("Tag gone");
-    st = MISSING;
-  }
-
-  return st;
 }
 
 RFID_STATE Rfid::checkForTagHSU(uint8_t index, PN532 nfc) {

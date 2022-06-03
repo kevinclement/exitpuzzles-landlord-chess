@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Arduino.h"
-#include <MFRC522.h>
 #include <PN532.h>
 
 class Logic;
@@ -19,7 +18,6 @@ class Rfid {
   private:
     Logic &_logic;
     bool compareTags(uint8_t index);
-    RFID_STATE checkForTagMFR(uint8_t index, MFRC522 mfr);
     RFID_STATE checkForTagHSU(uint8_t index, PN532 nfc);
     String prettyState(uint8_t);
 

@@ -26,8 +26,8 @@ void Logic::status() {
       "gitDate:%s,"
       "buildDate:%s,"
 
-      "idol_4:%s,"
-      "idol_5:%s"
+      "piece_1:%s,"
+      "piece_2:%s"
 
       "\r\n"
     , GIT_HASH,
