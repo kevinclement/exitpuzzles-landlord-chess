@@ -6,7 +6,8 @@
 Logic::Logic()
   : serial(),
     rfid(*this), 
-    bust(*this)
+    bust(*this),
+    magnet(*this)
 {
 }
 
@@ -14,11 +15,15 @@ void Logic::setup() {
   serial.setup("");
   rfid.setup();
   bust.setup();
+  magnet.setup();
 }
 
 void Logic::handle() {
   rfid.handle();
   bust.handle();
+  magnet.handle();
+
+  magnet.enabled = bust.isSwitched;
 }
 
 void Logic::status() {
@@ -31,7 +36,8 @@ void Logic::status() {
 
       "piece_1:%s,"
       "piece_2:%s,"
-      "bust:%s"
+      "bust:%s,"
+      "magnet:%s"
 
       "\r\n"
     , GIT_HASH,
@@ -40,7 +46,8 @@ void Logic::status() {
 
       rfid.state[0] == CORRECT ? "true" : "false",
       rfid.state[1] == CORRECT ? "true" : "false", 
-      bust.isSwitched ? "true" : "false"
+      bust.isSwitched ? "on" : "off",
+      magnet.enabled ? "enabled" : "disabled"
   );
 
   Serial.print(cMsg);

@@ -2,9 +2,7 @@
 #include "rfid.h"
 #include "logic.h"
 
-#define OFFSET          1
-
-// #define MAGNET_PIN      32
+#define OFFSET  1
 
 byte tags [2][2][4] = {
   {
@@ -27,8 +25,6 @@ Rfid::Rfid(Logic &logic)
 }
 
 void Rfid::setup() {
-  // pinMode(MAGNET_PIN, OUTPUT);
-
   // Remap serial uart
   Serial1.begin(115200, SERIAL_8N1, A0, A1);
 
