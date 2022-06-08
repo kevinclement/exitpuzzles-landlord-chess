@@ -23,7 +23,8 @@ void Logic::handle() {
   bust.handle();
   magnet.handle();
 
-  magnet.enabled = bust.isSwitched;
+  // Magnet will be on when switch is disabled
+  magnet.enabled = !bust.isSwitched;
 }
 
 void Logic::status() {

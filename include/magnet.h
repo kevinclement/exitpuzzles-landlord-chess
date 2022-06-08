@@ -5,8 +5,6 @@
 class Logic;
 
 #define MAGNET_PIN  32
-#define ON          LOW
-#define OFF         HIGH
 
 class Magnet {
   public:
