@@ -5,17 +5,20 @@
 
 Logic::Logic()
   : serial(),
-    rfid(*this)
+    rfid(*this), 
+    bust(*this)
 {
 }
 
 void Logic::setup() {
   serial.setup("");
   rfid.setup();
+  bust.setup();
 }
 
 void Logic::handle() {
   rfid.handle();
+  bust.handle();
 }
 
 void Logic::status() {
@@ -27,7 +30,8 @@ void Logic::status() {
       "buildDate:%s,"
 
       "piece_1:%s,"
-      "piece_2:%s"
+      "piece_2:%s,"
+      "bust:%s"
 
       "\r\n"
     , GIT_HASH,
@@ -35,7 +39,8 @@ void Logic::status() {
       DATE_NOW,
 
       rfid.state[0] == CORRECT ? "true" : "false",
-      rfid.state[1] == CORRECT ? "true" : "false"
+      rfid.state[1] == CORRECT ? "true" : "false", 
+      bust.isSwitched ? "true" : "false"
   );
 
   Serial.print(cMsg);

@@ -2,7 +2,9 @@
 #include "rfid.h"
 #include "logic.h"
 
-#define OFFSET 1
+#define OFFSET          1
+
+// #define MAGNET_PIN      32
 
 byte tags [2][2][4] = {
   {
@@ -25,17 +27,27 @@ Rfid::Rfid(Logic &logic)
 }
 
 void Rfid::setup() {
+  // pinMode(MAGNET_PIN, OUTPUT);
+
   // Remap serial uart
   Serial1.begin(115200, SERIAL_8N1, A0, A1);
 
-  initReader(readers[0], "NFC1");
-  initReader(readers[1], "NFC2");
+  _isInit  = initReader(readers[0], "NFC1");
+  _isInit &= initReader(readers[1], "NFC2");
 
-  Serial.println("\nReady to Scan...");
+  if (_isInit) {
+    Serial.println("\nReady to Scan...");
+  } else {
+    Serial.println("\nWARN: RFID readers not initialized.  Currently disabled!");
+  }
 }
 
 void Rfid::handle() {
-  for (uint8_t i = 0; i < NR_OF_READERS; i++) {
+  if (!_isInit) {
+    return;
+  }
+
+  for (uint8_t i = 0; i < 1; i++) {
 
     RFID_STATE st = UNKNOWN;
     st = checkForTagHSU(i, readers[i]);
@@ -54,14 +66,15 @@ void Rfid::handle() {
   }
 }
 
-void Rfid::initReader(PN532 nfc, const char* label) {
+bool Rfid::initReader(PN532 nfc, const char* label) {
   nfc.begin();
 
   uint32_t versiondata = nfc.getFirmwareVersion();
   if (! versiondata) {
+    Serial.print("ERROR: ");
     Serial.print(label);
-    Serial.print(": Didn't find PN53x board");
-    while (1); // halt
+    Serial.println(": Didn't find PN53x board");
+    return false;
   }
   
   Serial.print(label);
@@ -76,6 +89,9 @@ void Rfid::initReader(PN532 nfc, const char* label) {
 
   // configure board to read RFID tags
   nfc.SAMConfig();
+
+  // mark card as init'd
+  return true;
 }
 
 RFID_STATE Rfid::checkForTagHSU(uint8_t index, PN532 nfc) {

@@ -37,7 +37,7 @@ void setup() {
   Serial.begin(115200);
   Serial.setTimeout(10);
   Serial.println("READY");
-  Serial.println("Chess board by kevinc...\n");
+  Serial.println("Chess Board by kevinc...\n");
 
   logic.setup();
   logic.status();
