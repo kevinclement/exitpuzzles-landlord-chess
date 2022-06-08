@@ -4,6 +4,7 @@
 #include "rfid.h"
 #include "bust.h"
 #include "magnet.h"
+#include "lights.h"
 #include "SerialManager.h"
 
 class Logic {
@@ -13,6 +14,8 @@ public:
   Rfid rfid;
   Bust bust;
   Magnet magnet;
+  Lights lights;
+  
   bool debug;
 
   void setup();

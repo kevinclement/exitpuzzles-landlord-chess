@@ -25,8 +25,8 @@ Rfid::Rfid(Logic &logic)
 }
 
 void Rfid::setup() {
-  // Remap serial uart
-  Serial1.begin(115200, SERIAL_8N1, A0, A1);
+  // Remap serial uart, pins 4 and 5
+  Serial1.begin(115200, SERIAL_8N1, 4, 5);
 
   _isInit  = initReader(readers[0], "NFC1");
   _isInit &= initReader(readers[1], "NFC2");

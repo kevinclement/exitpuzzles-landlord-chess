@@ -7,7 +7,8 @@ Logic::Logic()
   : serial(),
     rfid(*this), 
     bust(*this),
-    magnet(*this)
+    magnet(*this),
+    lights(*this)
 {
 }
 
@@ -16,12 +17,14 @@ void Logic::setup() {
   rfid.setup();
   bust.setup();
   magnet.setup();
+  lights.setup();
 }
 
 void Logic::handle() {
   rfid.handle();
   bust.handle();
   magnet.handle();
+  lights.handle();
 
   // Magnet will be on when switch is disabled
   magnet.enabled = !bust.isSwitched;
