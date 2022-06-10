@@ -2,24 +2,13 @@
 #include "pn532Device.h"
 #include "logic.h"
 
-// TODO: move into rfid, and pass single array to constructor
-#define TODO_FIX_INDEX 0
-byte tags [2][2][4] = {
-  {
-    { 0xF7, 0x6F, 0x8C, 0xF2 },
-    { 0x87, 0x93, 0x8E, 0xF2 }
-  },
-  {
-    { 0x27, 0x8F, 0x8E, 0xF2 },
-    { 0xF7, 0x92, 0x8E, 0xF2 }
-  }
-};
-
-PN532Device::PN532Device(Logic &logic, uint8_t irq_PIN, uint8_t ss_PIN, const char* label)
+PN532Device::PN532Device(Logic &logic, uint8_t irq_PIN, uint8_t ss_PIN, const char* label, byte (*validTags)[4], uint8_t numberOfTags)
 : _logic(logic),
   _nfc(PN532_SCK, PN532_MISO, PN532_MOSI, ss_PIN), 
   _label(label),
-  _IRQ_PIN(irq_PIN)
+  _IRQ_PIN(irq_PIN), 
+  tags(validTags),
+  _NUM_TAGS(numberOfTags)
 {
 }
 
@@ -114,11 +103,10 @@ RFID_STATE PN532Device::cardDetected() {
 
 // TODO: pass readCards
 bool PN532Device::compareTags() {
-  for ( uint8_t i = 0; i < 2; i++ ) {
+  for ( uint8_t i = 0; i < _NUM_TAGS; i++ ) {
     bool cardMatch = true;
     for ( uint8_t j = 0; j < 4; j++ ) {
-        // TODO: DONT HARDCODE
-        cardMatch = cardMatch && (readCards[j] == tags[TODO_FIX_INDEX][i][j]);
+        cardMatch = cardMatch && (readCards[j] == tags[i][j]);
     }
 
     if (cardMatch) {
