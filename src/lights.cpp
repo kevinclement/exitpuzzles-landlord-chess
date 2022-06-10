@@ -24,22 +24,22 @@ void Lights::handle() {
   // FastLED.show();
   // FastLED.delay(1000/FRAMES_PER_SECOND);
 
-  leds[0] = CRGB::Red;
-  FastLED.show();
-  delay(1000);
+  // leds[0] = CRGB::Red;
+  // FastLED.show();
+  // delay(1000);
 
-  leds[1] = CRGB::Red;
-  FastLED.show();
-  delay(1000);
+  // leds[1] = CRGB::Red;
+  // FastLED.show();
+  // delay(1000);
 
-  leds[2] = CRGB::Red;
-  FastLED.show();
-  delay(1000);
+  // leds[2] = CRGB::Red;
+  // FastLED.show();
+  // delay(1000);
 
-  // Now turn the LED off, then pause
-  leds[0] = CRGB::Black;
-  leds[1] = CRGB::Black;
-  leds[2] = CRGB::Black;
-  FastLED.show();
-  delay(3000); 
+  // // Now turn the LED off, then pause
+  // leds[0] = CRGB::Black;
+  // leds[1] = CRGB::Black;
+  // leds[2] = CRGB::Black;
+  // FastLED.show();
+  // delay(3000); 
 }

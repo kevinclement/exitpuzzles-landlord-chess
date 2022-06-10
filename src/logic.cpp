@@ -3,24 +3,20 @@
 #include "version.h"
 
 Logic::Logic()
-  : serial(),
-    rfid(*this), 
+  : rfid(*this), 
     bust(*this),
     magnet(*this),
     lights(*this),
-    sound(*this),
-    pn532(*this)
+    sound(*this)
 {
 }
 
 void Logic::setup() {
-  serial.setup("");
   rfid.setup();
   bust.setup();
   magnet.setup();
   lights.setup();
   sound.setup();
-  pn532.setup();
 }
 
 void Logic::handle() {
@@ -29,8 +25,7 @@ void Logic::handle() {
   magnet.handle();
   sound.handle();
   lights.handle();
-  pn532.handle();
-
+  
   // Magnet will be on when switch is disabled
   magnet.enabled = !bust.isSwitched;
 }
@@ -53,8 +48,8 @@ void Logic::status() {
       GIT_DATE,
       DATE_NOW,
 
-      rfid.state[0] == CORRECT ? "true" : "false",
-      rfid.state[1] == CORRECT ? "true" : "false", 
+      rfid.nfc1.state == CORRECT ? "true" : "false",
+      rfid.nfc2.state == CORRECT ? "true" : "false", 
       bust.isSwitched ? "on" : "off",
       magnet.enabled ? "enabled" : "disabled"
   );
