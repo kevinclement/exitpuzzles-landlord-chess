@@ -25,6 +25,8 @@ void readAnySerialMessage() {
     resetFunc();
   } else if (msg == "status" || msg == "s") {
     logic.status();
+  } else if (msg == "sound" || msg == "o") {
+    logic.sound.bustTriggered();
   } else if (msg == "debug" || msg == "x") {
     debug();
   } else {

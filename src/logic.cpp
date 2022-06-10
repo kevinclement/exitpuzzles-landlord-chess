@@ -1,6 +1,5 @@
 #include "Arduino.h"
 #include "logic.h"
-#include "rfid.h"
 #include "version.h"
 
 Logic::Logic()
@@ -8,7 +7,8 @@ Logic::Logic()
     rfid(*this), 
     bust(*this),
     magnet(*this),
-    lights(*this)
+    lights(*this),
+    sound(*this)
 {
 }
 
@@ -18,12 +18,14 @@ void Logic::setup() {
   bust.setup();
   magnet.setup();
   lights.setup();
+  sound.setup();
 }
 
 void Logic::handle() {
   rfid.handle();
   bust.handle();
   magnet.handle();
+  sound.handle();
   lights.handle();
 
   // Magnet will be on when switch is disabled

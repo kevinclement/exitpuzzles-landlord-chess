@@ -5,6 +5,7 @@
 #include "bust.h"
 #include "magnet.h"
 #include "lights.h"
+#include "sound.h"
 #include "SerialManager.h"
 
 class Logic {
@@ -15,6 +16,7 @@ public:
   Bust bust;
   Magnet magnet;
   Lights lights;
+  Sound sound;
   
   bool debug;
 
