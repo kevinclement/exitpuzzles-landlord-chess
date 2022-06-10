@@ -8,7 +8,8 @@ Logic::Logic()
     bust(*this),
     magnet(*this),
     lights(*this),
-    sound(*this)
+    sound(*this),
+    pn532(*this)
 {
 }
 
@@ -19,6 +20,7 @@ void Logic::setup() {
   magnet.setup();
   lights.setup();
   sound.setup();
+  pn532.setup();
 }
 
 void Logic::handle() {
@@ -27,6 +29,7 @@ void Logic::handle() {
   magnet.handle();
   sound.handle();
   lights.handle();
+  pn532.handle();
 
   // Magnet will be on when switch is disabled
   magnet.enabled = !bust.isSwitched;
