@@ -101,7 +101,6 @@ RFID_STATE PN532Device::cardDetected() {
   return st;
 }
 
-// TODO: pass readCards
 bool PN532Device::compareTags() {
   for ( uint8_t i = 0; i < _NUM_TAGS; i++ ) {
     bool cardMatch = true;
