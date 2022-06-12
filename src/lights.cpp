@@ -3,10 +3,17 @@
 #include "logic.h"
 #include <FastLED.h>
 
-#define ARRAY_SIZE(A) (sizeof(A) / sizeof((A)[0]))
+#define MAX_BRIGHTNESS  180
+#define MIN_BRIGHTNESS  75
+#define FADE_SPEED      19
+#define HUE_GREEN       96  // Green: found in example lib, under HUE_GREEN  
+#define MAX_LOOPS       5
 
 // Define the array of leds
 CRGB leds[NUM_LEDS];
+int loops = 0;
+
+#define ARRAY_SIZE(A) (sizeof(A) / sizeof((A)[0]))
 
 uint8_t gCurrentPatternNumber = 0; // Index number of which pattern is current
 uint8_t gHue = 0; // rotating "base color" used by many of the patterns
@@ -31,7 +38,6 @@ void rainbow()
   // FastLED's built-in rainbow generator
   fill_rainbow( leds, NUM_LEDS, gHue, 7);
 }
-
 
 void addGlitter( fract8 chanceOfGlitter) 
 {
@@ -84,7 +90,6 @@ void juggle() {
   }
 }
 
-
 // List of patterns to cycle through.  Each is defined as a separate function below.
 typedef void (*SimplePatternList[])();
 SimplePatternList gPatterns = { rainbow, rainbowWithGlitter, confetti, sinelon, juggle, bpm };
@@ -95,15 +100,32 @@ void nextPattern()
   gCurrentPatternNumber = (gCurrentPatternNumber + 1) % ARRAY_SIZE(gPatterns);
 }
 
-void newSinelon()
+void Lights::sweep()
 {
-  // a colored dot sweeping back and forth, with fading trails
-  fadeToBlackBy(leds, NUM_LEDS, 20);
-  // int pos = beatsin16( 13, 0, NUM_LEDS-1 );
-  leds[gPos] += CHSV(gHue, 255, 192);
-  gPos++;
-  if (gPos >= NUM_LEDS) {
-    gPos = 0;
+  EVERY_N_MILLISECONDS(16){
+    fadeToBlackBy(leds, NUM_LEDS, 20);
+
+    if (loops <= MAX_LOOPS) {
+      leds[gPos] += CHSV(HUE_GREEN, 255, 192);
+      gPos++;
+      if (gPos >= NUM_LEDS) {
+        gPos = 0;
+        loops++;
+      }
+    } else {
+      // check to see if we've fully faded after sweeping
+      if (leds[NUM_LEDS-1].r == 0 && leds[NUM_LEDS-1].g == 0 && leds[NUM_LEDS-1].b == 0)
+      {
+        if (solvingFirst) {
+          solvingFirst = false;
+          firstHalfSolved = true;
+        } else {
+          solvingSecond = false;
+          secondHalfSolved = true;
+        }
+        loops = 0;
+      }
+    }
   }
 }
 
@@ -120,22 +142,14 @@ void Lights::setup() {
   FastLED.clear();
 }
 
-#define MAX_BRIGHTNESS 180
-#define MIN_BRIGHTNESS 75
-#define FADE_SPEED 19
-
 void Lights::fadeInAndOut() {
   static boolean fadeDirection = 1;
-
-  // Green - found in example lib, under HUE_GREEN
-  static uint8_t hue = 96;
-  static uint8_t sat = 255;
   static uint8_t val = 0; // off
 
   EVERY_N_MILLISECONDS(FADE_SPEED){
     for(int i=0; i<NUM_LEDS; i++) {
       if ((i%2 == 0 && firstHalfSolved) || (i%2 !=0 && secondHalfSolved)) {
-          leds[i] = CHSV(hue,sat,val);
+          leds[i] = CHSV(HUE_GREEN,255,val);
       }
     }
     
@@ -150,13 +164,17 @@ void Lights::fadeInAndOut() {
       fadeDirection = !fadeDirection;  //reverse direction
     }
   }
-
-  FastLED.show();
 }
 
 void Lights::handle() {
 
-  fadeInAndOut();
+  if (solvingFirst || solvingSecond) {
+    sweep();
+  } else {
+    fadeInAndOut();
+  }
+
+  FastLED.show();
   
 
   // static uint8_t startIndex = 0;
@@ -193,9 +211,13 @@ void Lights::handle() {
 }
 
 void Lights::solvedFirst() {
-  firstHalfSolved = true;
+  FastLED.clear();
+  solvingFirst = true;
+  // firstHalfSolved = true;
 }
 
 void Lights::solvedSecond() {
-  secondHalfSolved = true;
+  FastLED.clear();
+  solvingSecond = true;
+  // secondHalfSolved = true;
 }

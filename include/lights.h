@@ -24,8 +24,14 @@ class Lights {
 
   private:
     Logic &_logic;
+
+
+    bool solvingFirst = false;
     bool firstHalfSolved = false;
+
+    bool solvingSecond = false;
     bool secondHalfSolved = false;
-    
+
     void fadeInAndOut();
+    void sweep();
 };
