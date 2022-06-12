@@ -7,7 +7,7 @@
 #define MIN_BRIGHTNESS  75
 #define FADE_SPEED      19
 #define HUE_GREEN       96  // Green: found in example lib, under HUE_GREEN  
-#define MAX_LOOPS       5
+#define MAX_LOOPS       3
 
 CRGB leds[NUM_LEDS];      // the array of leds
 int loops = 0;            // how many loops we've done on a solve
