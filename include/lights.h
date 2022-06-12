@@ -15,14 +15,17 @@ class Logic;
 class Lights {
   public:
     bool enabled = false;
-    bool firstHalfSolved = false;
-    bool secondHalfSolved = false;
     
     Lights(Logic &logic);
     void setup();
     void handle();
+    void solvedFirst();
+    void solvedSecond();
 
   private:
     Logic &_logic;
+    bool firstHalfSolved = false;
+    bool secondHalfSolved = false;
+    
     void fadeInAndOut();
 };

@@ -24,9 +24,9 @@ void readAnySerialMessage() {
   if (msg == "reset" || msg == "reboot" || msg == "r") {
     resetFunc();
   } else if (msg == "solve1" || msg == "1") {
-    logic.lights.firstHalfSolved = true;
+    logic.lights.solvedFirst();
   } else if (msg == "solve2" || msg == "2") {
-    logic.lights.secondHalfSolved = true;
+    logic.lights.solvedSecond();
   } else if (msg == "status" || msg == "s") {
     logic.status();
   } else if (msg == "sound" || msg == "o") {

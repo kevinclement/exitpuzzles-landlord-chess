@@ -191,3 +191,11 @@ void Lights::handle() {
   // EVERY_N_MILLISECONDS( 20 ) { gHue++; } // slowly cycle the "base color" through the rainbow
   // EVERY_N_SECONDS( 10 ) { nextPattern(); } // change patterns periodically
 }
+
+void Lights::solvedFirst() {
+  firstHalfSolved = true;
+}
+
+void Lights::solvedSecond() {
+  secondHalfSolved = true;
+}
