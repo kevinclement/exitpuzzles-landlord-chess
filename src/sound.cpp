@@ -10,8 +10,10 @@ MelodyPlayer player1(BUZZER_PIN_1, HIGH);
 MelodyPlayer player2(BUZZER_PIN_2, HIGH);
 
 const char bustMelodyStr[] = "bust:d=16,o=5,b=112:32p,f,a#,c6,c#6,c6,c#6,d#6,2f6";
+const char solvedMelodyStr[] = "solved:d=16,o=6,b=56:g#5,32a#5,f5,g#.5,a#.5,32f5,g#5,32a#5,g#5,8c#.";
 
 Melody bustMelody;
+Melody solvedMelody;
 Sound::Sound(Logic &logic)
 : _logic(logic)
 {
@@ -19,6 +21,7 @@ Sound::Sound(Logic &logic)
 
 void Sound::setup() {
   bustMelody = MelodyFactory.loadRtttlString(bustMelodyStr);
+  solvedMelody = MelodyFactory.loadRtttlString(solvedMelodyStr);
 }
 
 void Sound::handle() {
@@ -30,4 +33,6 @@ void Sound::bustTriggered() {
 }
 
 void Sound::solved() {
+  player1.playAsync(solvedMelody);
+  player2.playAsync(solvedMelody);
 }
