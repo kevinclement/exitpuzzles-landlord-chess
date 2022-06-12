@@ -16,7 +16,7 @@ class Lights {
   public:
     bool enabled = false;
     bool firstHalfSolved = false;
-    bool secondHalfSolved = true;
+    bool secondHalfSolved = false;
     
     Lights(Logic &logic);
     void setup();
