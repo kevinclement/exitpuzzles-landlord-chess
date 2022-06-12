@@ -23,6 +23,8 @@ void readAnySerialMessage() {
 
   if (msg == "reset" || msg == "reboot" || msg == "r") {
     resetFunc();
+  } else if (msg == "attract" || msg == "a") {    
+    logic.lights.triggerAttractMode();
   } else if (msg == "solve1" || msg == "1") {
     logic.lights.triggerFirst();
   } else if (msg == "solve2" || msg == "2") {

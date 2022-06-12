@@ -101,6 +101,51 @@ void nextPattern()
   gCurrentPatternNumber = (gCurrentPatternNumber + 1) % ARRAY_SIZE(gPatterns);
 }
 
+Lights::Lights(Logic &logic)
+: _logic(logic)
+{
+}
+
+void Lights::setup() {
+  FastLED.addLeds<WS2812B, DATA_PIN, GRB>(leds, NUM_LEDS)
+         .setCorrection(TypicalLEDStrip);
+  FastLED.setBrightness(BRIGHTNESS);
+  FastLED.clear();
+}
+
+void Lights::handle() {
+
+  if (attractMode) {
+    fancyPants();
+  } else if (solvingFirst || solvingSecond) {
+    sweep();
+  } else {
+    fadeInAndOut();
+  }
+
+  FastLED.show();
+}
+
+void Lights::triggerAttractMode() {
+  attractMode = true;
+}
+
+void Lights::triggerFirst() {
+  pos = NUM_LEDS;
+  sweepRight = true;
+  solvingFirst = true;
+  attractMode = false;
+  FastLED.clear();
+}
+
+void Lights::triggerSecond() {
+  pos = 0;
+  sweepRight = false;
+  solvingSecond = true;
+  attractMode = false;
+  FastLED.clear();
+}
+
 void Lights::sweep()
 {
   EVERY_N_MILLISECONDS(16){
@@ -139,19 +184,6 @@ void Lights::sweep()
   }
 }
 
-
-Lights::Lights(Logic &logic)
-: _logic(logic)
-{
-}
-
-void Lights::setup() {
-  FastLED.addLeds<WS2812B, DATA_PIN, GRB>(leds, NUM_LEDS)
-         .setCorrection(TypicalLEDStrip);
-  FastLED.setBrightness(BRIGHTNESS);
-  FastLED.clear();
-}
-
 void Lights::fadeInAndOut() {
   static boolean fadeDirection = 1;
   static uint8_t val = 0; // off
@@ -176,60 +208,15 @@ void Lights::fadeInAndOut() {
   }
 }
 
-void Lights::handle() {
+void Lights::fancyPants() {
 
-  if (solvingFirst || solvingSecond) {
-    sweep();
-  } else {
-    fadeInAndOut();
+  EVERY_N_MILLISECONDS(120) {
+     gHue++;
+
+    // random colored speckles that blink in and fade smoothly
+    fadeToBlackBy(leds, NUM_LEDS, 3);
+    int pos = random16(NUM_LEDS);
+    leds[pos] += CHSV(gHue + random8(64), 200, 50);
   }
-
-  FastLED.show();
   
-
-  // static uint8_t startIndex = 0;
-  // startIndex = startIndex + 1; /* motion speed */
-  // FillLEDsFromPaletteColors( startIndex);
-  // FastLED.show();
-  // FastLED.delay(1000 / UPDATES_PER_SECOND);
-
-  // fadeToBlackBy(leds, NUM_LEDS, 10);
-  // FastLED.show();  
-  // FastLED.delay(1000/FRAMES_PER_SECOND); 
-
-  // Call the current pattern function once, updating the 'leds' array
-  // EVERY_N_MILLISECONDS( 100 ) { 
-  // sinelon();
-  // }
-  
-  // send the 'leds' array out to the actual LED strip
-  // FastLED.show();
-  // // insert a delay to keep the framerate modest
-  // FastLED.delay(1000/FRAMES_PER_SECOND);
-  
-  // Call the current pattern function once, updating the 'leds' array
-  // gPatterns[gCurrentPatternNumber]();
-
-  // send the 'leds' array out to the actual LED strip
-  // FastLED.show();  
-  // // insert a delay to keep the framerate modest
-  // FastLED.delay(1000/FRAMES_PER_SECOND); 
-
-  // do some periodic updates
-  // EVERY_N_MILLISECONDS( 20 ) { gHue++; } // slowly cycle the "base color" through the rainbow
-  // EVERY_N_SECONDS( 10 ) { nextPattern(); } // change patterns periodically
-}
-
-void Lights::triggerFirst() {
-  pos = NUM_LEDS;
-  sweepRight = true;
-  solvingFirst = true;
-  FastLED.clear();
-}
-
-void Lights::triggerSecond() {
-  pos = 0;
-  sweepRight = false;
-  solvingSecond = true;
-  FastLED.clear();
 }

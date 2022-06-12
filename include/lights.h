@@ -21,16 +21,18 @@ class Lights {
     void handle();
     void triggerFirst();
     void triggerSecond();
+    void triggerAttractMode();
 
   private:
     Logic &_logic;
 
-
-    bool solvingFirst = false;
-    bool solvedFirst = false;
-    bool solvingSecond = false;
-    bool solvedSecond = false;
+    bool attractMode    = true;
+    bool solvingFirst   = false;
+    bool solvedFirst    = false;
+    bool solvingSecond  = false;
+    bool solvedSecond   = false;
 
     void fadeInAndOut();
     void sweep();
+    void fancyPants();
 };
