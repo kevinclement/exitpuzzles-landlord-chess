@@ -11,7 +11,7 @@
 
 CRGB leds[NUM_LEDS];      // the array of leds
 int loops = 0;            // how many loops we've done on a solve
-uint8_t pos = NUM_LEDS;   // tracks position during a sweep
+int pos = NUM_LEDS; // tracks position during a sweep
 bool sweepRight = true;   // should we sweep right or left
 
 Lights::Lights(Logic &logic)
@@ -44,19 +44,19 @@ void Lights::triggerAttractMode() {
 }
 
 void Lights::triggerFirst() {
-  pos = NUM_LEDS;
+  pos = NUM_LEDS - 1;
   sweepRight = true;
   solvingFirst = true;
   attractMode = false;
-  FastLED.clear();
+  FastLED.clear(true);
 }
 
 void Lights::triggerSecond() {
-  pos = 0;
+  pos = -1;
   sweepRight = false;
   solvingSecond = true;
   attractMode = false;
-  FastLED.clear();
+  FastLED.clear(true);
 }
 
 void Lights::sweep()
@@ -65,34 +65,34 @@ void Lights::sweep()
     fadeToBlackBy(leds, NUM_LEDS, 20);
 
     if (loops <= MAX_LOOPS) {
-      leds[pos] += CHSV(HUE_GREEN, 255, 192);
-          
       if (sweepRight) {
         pos--;
       } else {
         pos++;
       }
+
+      leds[pos] += CHSV(HUE_GREEN, 255, 192);  
       
-      if (sweepRight && pos <= 0) {
+      if (sweepRight && pos == 0) {
         pos = NUM_LEDS;
         loops++;
-      } else if (!sweepRight && pos >= NUM_LEDS) {
-        pos = 0;
+      } else if (!sweepRight && pos == NUM_LEDS) {
+        pos = -1;
         loops++;
       }
     } else {
-      // check to see if we've fully faded after sweeping
-      if (leds[NUM_LEDS-1].r == 0 && leds[NUM_LEDS-1].g == 0 && leds[NUM_LEDS-1].b == 0)
-      {
-        if (solvingFirst) {
-          solvingFirst = false;
-          solvedFirst = true;
-        } else {
-          solvingSecond = false;
-          solvedSecond = true;
+        if (leds[0].r == 0 && leds[0].g == 0 && leds[0].b == 0 && leds[NUM_LEDS-1].r == 0 && 
+            leds[NUM_LEDS-1].g == 0 && leds[NUM_LEDS-1].b == 0) {
+          if (solvingFirst) {
+            solvingFirst = false;
+            solvedFirst = true;
+          } else {
+            solvingSecond = false;
+            solvedSecond = true;
+          }
+          loops = 0;
+          FastLED.clear(true);
         }
-        loops = 0;
-      }
     }
   }
 }
@@ -104,7 +104,7 @@ void Lights::fadeInAndOut() {
   EVERY_N_MILLISECONDS(FADE_SPEED){
     for(int i=0; i<NUM_LEDS; i++) {
       if ((i%2 == 0 && solvedFirst) || (i%2 !=0 && solvedSecond)) {
-          leds[i] = CHSV(HUE_GREEN,255,val);
+        leds[i] = CHSV(HUE_GREEN,255,val);
       }
     }
     

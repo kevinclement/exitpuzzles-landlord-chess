@@ -50,9 +50,11 @@ void Logic::status() {
 }
 
 void Logic::triggerFirst() {
+  sound.bustTriggered();
   lights.triggerFirst();
 }
 
 void Logic::triggerSecond() {
+  sound.solved();
   lights.triggerSecond();
 }
