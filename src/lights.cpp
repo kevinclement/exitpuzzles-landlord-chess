@@ -12,12 +12,13 @@
 // Define the array of leds
 CRGB leds[NUM_LEDS];
 int loops = 0;
+uint8_t pos = NUM_LEDS;
+bool sweepRight = true;
 
 #define ARRAY_SIZE(A) (sizeof(A) / sizeof((A)[0]))
 
 uint8_t gCurrentPatternNumber = 0; // Index number of which pattern is current
 uint8_t gHue = 0; // rotating "base color" used by many of the patterns
-int gPos = 0;
 CRGBPalette16 currentPalette = RainbowColors_p;
 TBlendType currentBlending = LINEARBLEND;
 #define UPDATES_PER_SECOND 100
@@ -106,10 +107,19 @@ void Lights::sweep()
     fadeToBlackBy(leds, NUM_LEDS, 20);
 
     if (loops <= MAX_LOOPS) {
-      leds[gPos] += CHSV(HUE_GREEN, 255, 192);
-      gPos++;
-      if (gPos >= NUM_LEDS) {
-        gPos = 0;
+      leds[pos] += CHSV(HUE_GREEN, 255, 192);
+          
+      if (sweepRight) {
+        pos--;
+      } else {
+        pos++;
+      }
+      
+      if (sweepRight && pos <= 0) {
+        pos = NUM_LEDS;
+        loops++;
+      } else if (!sweepRight && pos >= NUM_LEDS) {
+        pos = 0;
         loops++;
       }
     } else {
@@ -211,12 +221,16 @@ void Lights::handle() {
 }
 
 void Lights::solvedFirst() {
+  pos = NUM_LEDS;
+  sweepRight = true;
   FastLED.clear();
   solvingFirst = true;
   // firstHalfSolved = true;
 }
 
 void Lights::solvedSecond() {
+  pos = 0;
+  sweepRight = false;
   FastLED.clear();
   solvingSecond = true;
   // secondHalfSolved = true;
