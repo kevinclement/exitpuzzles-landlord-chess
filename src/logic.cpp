@@ -48,3 +48,11 @@ void Logic::status() {
 
   Serial.print(cMsg);
 }
+
+void Logic::triggerFirst() {
+  lights.triggerFirst();
+}
+
+void Logic::triggerSecond() {
+  lights.triggerSecond();
+}

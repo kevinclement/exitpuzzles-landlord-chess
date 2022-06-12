@@ -12,15 +12,14 @@ Sound::Sound(Logic &logic)
 }
 
 void Sound::setup() {
+  ledcAttachPin(BUZZER_PIN_1, BUZZER_CHANNEL_1);
+  ledcAttachPin(BUZZER_PIN_2, BUZZER_CHANNEL_2);
 }
 
 void Sound::handle() {
 }
 
 void Sound::bustTriggered() {
-  ledcAttachPin(BUZZER_PIN_1, BUZZER_CHANNEL_1);
-  ledcAttachPin(BUZZER_PIN_2, BUZZER_CHANNEL_2);
-
   ledcWriteNote(BUZZER_CHANNEL_1, NOTE_C, 4);
   ledcWriteNote(BUZZER_CHANNEL_2, NOTE_C, 4);
   delay(500);
@@ -42,9 +41,6 @@ void Sound::bustTriggered() {
   ledcWriteNote(BUZZER_CHANNEL_1, NOTE_B, 4);
   ledcWriteNote(BUZZER_CHANNEL_2, NOTE_B, 4);
   delay(500);
-
-  ledcDetachPin(BUZZER_PIN_1);
-  ledcDetachPin(BUZZER_PIN_2);
 }
 
 void Sound::solved() {

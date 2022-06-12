@@ -21,6 +21,9 @@ public:
   void setup();
   void handle();
   void status();
+  
+  void triggerFirst();
+  void triggerSecond();
 
 private:
 };

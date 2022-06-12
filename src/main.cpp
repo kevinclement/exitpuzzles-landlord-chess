@@ -26,9 +26,9 @@ void readAnySerialMessage() {
   } else if (msg == "attract" || msg == "a") {    
     logic.lights.triggerAttractMode();
   } else if (msg == "solve1" || msg == "1") {
-    logic.lights.triggerFirst();
+    logic.triggerFirst();
   } else if (msg == "solve2" || msg == "2") {
-    logic.lights.triggerSecond();
+    logic.triggerSecond();
   } else if (msg == "status" || msg == "s") {
     logic.status();
   } else if (msg == "sound" || msg == "o") {
