@@ -128,10 +128,10 @@ void Lights::sweep()
       {
         if (solvingFirst) {
           solvingFirst = false;
-          firstHalfSolved = true;
+          solvedFirst = true;
         } else {
           solvingSecond = false;
-          secondHalfSolved = true;
+          solvedSecond = true;
         }
         loops = 0;
       }
@@ -158,7 +158,7 @@ void Lights::fadeInAndOut() {
 
   EVERY_N_MILLISECONDS(FADE_SPEED){
     for(int i=0; i<NUM_LEDS; i++) {
-      if ((i%2 == 0 && firstHalfSolved) || (i%2 !=0 && secondHalfSolved)) {
+      if ((i%2 == 0 && solvedFirst) || (i%2 !=0 && solvedSecond)) {
           leds[i] = CHSV(HUE_GREEN,255,val);
       }
     }
@@ -220,18 +220,16 @@ void Lights::handle() {
   // EVERY_N_SECONDS( 10 ) { nextPattern(); } // change patterns periodically
 }
 
-void Lights::solvedFirst() {
+void Lights::triggerFirst() {
   pos = NUM_LEDS;
   sweepRight = true;
-  FastLED.clear();
   solvingFirst = true;
-  // firstHalfSolved = true;
+  FastLED.clear();
 }
 
-void Lights::solvedSecond() {
+void Lights::triggerSecond() {
   pos = 0;
   sweepRight = false;
-  FastLED.clear();
   solvingSecond = true;
-  // secondHalfSolved = true;
+  FastLED.clear();
 }

@@ -19,18 +19,17 @@ class Lights {
     Lights(Logic &logic);
     void setup();
     void handle();
-    void solvedFirst();
-    void solvedSecond();
+    void triggerFirst();
+    void triggerSecond();
 
   private:
     Logic &_logic;
 
 
     bool solvingFirst = false;
-    bool firstHalfSolved = false;
-
+    bool solvedFirst = false;
     bool solvingSecond = false;
-    bool secondHalfSolved = false;
+    bool solvedSecond = false;
 
     void fadeInAndOut();
     void sweep();
