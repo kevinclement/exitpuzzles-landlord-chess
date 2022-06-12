@@ -15,6 +15,8 @@ class Logic;
 class Lights {
   public:
     bool enabled = false;
+    bool firstHalfSolved = false;
+    bool secondHalfSolved = true;
     
     Lights(Logic &logic);
     void setup();
@@ -22,4 +24,5 @@ class Lights {
 
   private:
     Logic &_logic;
+    void fadeInAndOut();
 };
