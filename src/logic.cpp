@@ -40,7 +40,7 @@ void Logic::handle() {
       // right now, triggering once will solve it, and thats it, nothing else should happen. 
       Serial.println("Bust finished sound and animation.  Marking solved.");
       bustSolved = true;
-      status();  
+      status();
     }
   }
   

@@ -24,6 +24,8 @@ Rfid::Rfid(Logic &logic)
 void Rfid::setup() {
   nfc1.setup();
   nfc2.setup();
+
+  Serial.println();
 }
 
 void Rfid::handle() {
