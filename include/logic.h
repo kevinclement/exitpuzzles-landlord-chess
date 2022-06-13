@@ -9,6 +9,8 @@
 
 #define DELAY_FOR_SOLVES 500
 
+enum SOLVING_STATE {NOT_SOLVED, SOLVING, SOLVED};
+
 class Logic {
 public:
   Logic();
@@ -19,8 +21,6 @@ public:
   Sound sound;
   
   bool debug;
-  bool bustSolved;
-  bool solved;
 
   void setup();
   void handle();
@@ -31,6 +31,9 @@ public:
 
 private:
   long bust_solved_time = 0;
-  long solved_time = 0;
+  long rfid_solved_time = 0;
+  SOLVING_STATE bustState = NOT_SOLVED;
+  SOLVING_STATE rfidState = NOT_SOLVED;
+  bool solved;
 };
 

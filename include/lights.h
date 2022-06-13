@@ -12,13 +12,13 @@
 
 class Logic;
 
-enum LIGHTS_STATE {INIT, RUNNING, SOLVED};
+enum LIGHTS_STATE {ATTRACT, SWEEPING, PULSING};
 
 class Lights {
   public:
     bool enabled = false;
-    LIGHTS_STATE first = INIT;
-    LIGHTS_STATE second = INIT;
+    LIGHTS_STATE first = ATTRACT;
+    LIGHTS_STATE second = ATTRACT;
 
     Lights(Logic &logic);
     void setup();
