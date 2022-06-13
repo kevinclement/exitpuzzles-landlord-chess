@@ -30,7 +30,7 @@ void Lights::handle() {
 
   if (attractMode) {
     fancyPants();
-  } else if (solvingFirst || solvingSecond) {
+  } else if (first == RUNNING || second == RUNNING) {
     sweep();
   } else {
     fadeInAndOut();
@@ -46,7 +46,7 @@ void Lights::triggerAttractMode() {
 void Lights::triggerFirst() {
   pos = NUM_LEDS - 1;
   sweepRight = true;
-  solvingFirst = true;
+  first = RUNNING;
   attractMode = false;
   FastLED.clear(true);
 }
@@ -54,7 +54,7 @@ void Lights::triggerFirst() {
 void Lights::triggerSecond() {
   pos = -1;
   sweepRight = false;
-  solvingSecond = true;
+  second = RUNNING;
   attractMode = false;
   FastLED.clear(true);
 }
@@ -83,12 +83,10 @@ void Lights::sweep()
     } else {
         if (leds[0].r == 0 && leds[0].g == 0 && leds[0].b == 0 && leds[NUM_LEDS-1].r == 0 && 
             leds[NUM_LEDS-1].g == 0 && leds[NUM_LEDS-1].b == 0) {
-          if (solvingFirst) {
-            solvingFirst = false;
-            solvedFirst = true;
-          } else {
-            solvingSecond = false;
-            solvedSecond = true;
+          if (first == RUNNING) {
+            first = SOLVED;
+          } else if (second == RUNNING) {
+            second = SOLVED;
           }
           loops = 0;
           FastLED.clear(true);
@@ -103,7 +101,7 @@ void Lights::fadeInAndOut() {
 
   EVERY_N_MILLISECONDS(FADE_SPEED){
     for(int i=0; i<NUM_LEDS; i++) {
-      if ((i%2 == 0 && solvedFirst) || (i%2 !=0 && solvedSecond)) {
+      if ((i%2 == 0 && first == SOLVED) || (i%2 !=0 && second == SOLVED)) {
         leds[i] = CHSV(HUE_GREEN,255,val);
       }
     }

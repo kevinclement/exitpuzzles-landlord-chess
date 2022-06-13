@@ -17,6 +17,7 @@ public:
   Sound sound;
   
   bool debug;
+  bool solved;
 
   void setup();
   void handle();
