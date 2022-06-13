@@ -7,6 +7,8 @@
 #include "lights.h"
 #include "sound.h"
 
+#define DELAY_FOR_SOLVES 500
+
 class Logic {
 public:
   Logic();
@@ -17,6 +19,7 @@ public:
   Sound sound;
   
   bool debug;
+  bool bustSolved;
   bool solved;
 
   void setup();
@@ -27,5 +30,7 @@ public:
   void triggerSecond();
 
 private:
+  long bust_solved_time = 0;
+  long solved_time = 0;
 };
 

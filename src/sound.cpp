@@ -33,14 +33,19 @@ void Sound::setup() {
 }
 
 void Sound::handle() {
+  if (state == PLAYING && !player1.isPlaying()) {
+    state = STOPPED;
+  }
 }
 
 void Sound::bustTriggered() {
+  state = PLAYING;
   player1.playAsync(bustMelody);
   player2.playAsync(bustMelody);
 }
 
 void Sound::solved() {
+  state = PLAYING;
   player1.playAsync(solvedMelody);
   player2.playAsync(solvedMelody);
 }
