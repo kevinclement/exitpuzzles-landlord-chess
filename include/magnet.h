@@ -8,7 +8,7 @@ class Logic;
 
 class Magnet {
   public:
-    bool enabled = false;
+    bool enabled = true;
     
     Magnet(Logic &logic);
     void setup();
@@ -16,5 +16,5 @@ class Magnet {
 
   private:
     Logic &_logic;
-    bool _prevEnabled = false;
+    bool _prevEnabled = true;
 };

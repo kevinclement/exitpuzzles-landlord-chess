@@ -24,6 +24,9 @@ void Logic::handle() {
   magnet.handle();
   sound.handle();
   lights.handle();
+
+  // NOTE: do I have to worry about making sure there isn't a conflict with RFID and 
+  // bust both going off at the same time? the odds of that are probably pretty low.
   
   // check for bust
   if (bust.isSwitched && lights.first == INIT) {
@@ -36,6 +39,7 @@ void Logic::handle() {
     if (bust_solved_time == 0) {
       bust_solved_time = millis();
     } else if(millis() - bust_solved_time > DELAY_FOR_SOLVES) {
+
       // NOTE: if we wanted to, we could make it so toggling off bust before animation finished would reset it all
       // right now, triggering once will solve it, and thats it, nothing else should happen. 
       Serial.println("Bust finished sound and animation.  Marking solved.");
@@ -46,18 +50,24 @@ void Logic::handle() {
   
   // check for second final solved state
   if (!solved && rfid.nfc1.state == CORRECT && rfid.nfc2.state == CORRECT) {
-    Serial.println("Both RFIDs correct.  Puzzle solved.");
+    Serial.println("Both RFIDs correct.  Triggering second.");    
     triggerSecond();
-    solved = true;
-    status();
   }
 
-  // Magnet will be on when switch is disabled
-  // magnet.enabled = !bust.isSwitched;
+  // check for second to finish animation
+  if (!solved && lights.second == SOLVED && sound.state == STOPPED) {
+    if (solved_time == 0) {
+      solved_time = millis();
+    } else if (millis() - solved_time > DELAY_FOR_SOLVES) {
+      Serial.println("RFID finished sound and animation.  Marking solved.");
+      solved = true;
+      
+      // finally turn the magnet off
+      magnet.enabled = false;
 
-
-  // TODO: do I have to worry about making sure there isn't a conflict with RFID and bust both going off at the same time?
-  // the odds of that are probably pretty low.
+      status();      
+    }
+  }
 }
 
 void Logic::status() {
