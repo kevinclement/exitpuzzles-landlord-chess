@@ -6,6 +6,7 @@
 #include "magnet.h"
 #include "lights.h"
 #include "sound.h"
+#include "cabinet.h"
 
 #define DELAY_FOR_SOLVES 500
 
@@ -19,6 +20,7 @@ public:
   Magnet magnet;
   Lights lights;
   Sound sound;
+  Cabinet cabinet;
   
   bool debug;
 
