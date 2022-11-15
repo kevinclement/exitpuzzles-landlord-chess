@@ -8,7 +8,7 @@ Bust::Bust(Logic &logic)
 }
 
 void Bust::setup() {
-  pinMode(BTN_SWITCH_PIN, INPUT_PULLUP);
+  pinMode(BTN_SWITCH_PIN, INPUT_PULLDOWN);
 }
 
 void Bust::handle() {

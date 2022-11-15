@@ -1,0 +1,25 @@
+== Drop Options ============================
+============================================
+
+[ ] stepper rotation device
+  [ ] stepper + driver + code
+  [ ] tmp wood sample rotator piece
+  [ ] test motor is strong enough to drive it away with load on top
+[ ] midi style pivot arm T
+  [ ] I'll print this design next
+[ ] stepper or motor with a big wheel
+  [ ] when under load, wheel wont move
+[ ] Lock style solonoid
+[ ] pinch
+[ ] limp pinch and release
+
+
+
+
+[ ] bevelled 3d print funnel type lid
+  [ ] or route the wood stopper piece
+
+// == Housing =============
+[ ] cricket labeling of door (marie)
+[ ] paint stopper piece?
+	
