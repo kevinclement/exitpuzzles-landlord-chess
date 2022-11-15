@@ -8,6 +8,7 @@
 #include "sound.h"
 #include "cabinet.h"
 #include "cabinetLed.h"
+#include "speakerLed.h"
 
 #define DELAY_FOR_SOLVES 500
 
@@ -23,6 +24,7 @@ public:
   Sound sound;
   Cabinet cabinet;
   CabinetLed cabinetLed;
+  SpeakerLed speakerLed;
   
   bool debug;
 

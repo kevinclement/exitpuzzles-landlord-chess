@@ -39,6 +39,8 @@ void readAnySerialMessage() {
     logic.cabinet.enabled = false;
   } else if (msg == "cabinetLedOff" || msg == "z") {
     logic.cabinetLed.enabled = false;
+  } else if (msg == "spkeakerLedOff" || msg == "o") {
+    logic.speakerLed.enabled = false;
   } else if (msg == "debug" || msg == "x") {
     debug();
   } else {
