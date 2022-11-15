@@ -35,6 +35,8 @@ void readAnySerialMessage() {
     logic.sound.bustTriggered();
   } else if (msg == "cabinet" || msg == "c") {
     logic.cabinet.enabled = true;
+  } else if (msg == "cabinet" || msg == "v") {
+    logic.cabinet.enabled = false;
   } else if (msg == "debug" || msg == "x") {
     debug();
   } else {
