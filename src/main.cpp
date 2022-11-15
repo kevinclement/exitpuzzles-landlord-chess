@@ -33,10 +33,12 @@ void readAnySerialMessage() {
     logic.status();
   } else if (msg == "sound" || msg == "o") {
     logic.sound.bustTriggered();
-  } else if (msg == "cabinet" || msg == "c") {
+  } else if (msg == "cabinetOn" || msg == "c") {
     logic.cabinet.enabled = true;
-  } else if (msg == "cabinet" || msg == "v") {
+  } else if (msg == "cabinetOff" || msg == "v") {
     logic.cabinet.enabled = false;
+  } else if (msg == "cabinetLedOff" || msg == "z") {
+    logic.cabinetLed.enabled = false;
   } else if (msg == "debug" || msg == "x") {
     debug();
   } else {

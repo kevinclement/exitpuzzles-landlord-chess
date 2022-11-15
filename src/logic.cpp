@@ -7,7 +7,8 @@ Logic::Logic()
     magnet(*this),
     lights(*this),
     sound(*this),
-    cabinet(*this)
+    cabinet(*this),
+    cabinetLed(*this)
 {
 }
 
@@ -18,6 +19,7 @@ void Logic::setup() {
   lights.setup();
   sound.setup();
   cabinet.setup();
+  cabinetLed.setup();
 }
 
 void Logic::handle() {
@@ -27,6 +29,7 @@ void Logic::handle() {
   sound.handle();
   lights.handle();
   cabinet.handle();
+  cabinetLed.handle();
 
   // NOTE: do I have to worry about making sure there isn't a conflict with RFID and 
   // bust both going off at the same time? the odds of that are probably pretty low.
@@ -87,6 +90,7 @@ void Logic::status() {
       "bust_solved:%s,"
       "magnet:%s,"
       "cabinet:%s,"
+      "cabinetLed:%s,"
       "solved:%s"
 
       "\r\n"
@@ -98,6 +102,7 @@ void Logic::status() {
       bustState == SOLVED         ? "true"    : "false",
       magnet.enabled              ? "enabled" : "disabled",
       cabinet.enabled             ? "enabled" : "disabled",
+      cabinetLed.enabled          ? "enabled" : "disabled",
       solved                      ? "true"    : "false"
   );
 
