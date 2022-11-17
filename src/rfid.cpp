@@ -22,10 +22,10 @@ Rfid::Rfid(Logic &logic)
 : _logic(logic),
 
   // F2
-  nfc1(logic, A3, 21, "NFC1", VALID_TAGS[0], NUM_VALID_TAGS),
+  nfc1(logic, A3, 21, "F2", VALID_TAGS[0], NUM_VALID_TAGS, F2),
 
   // C7
-  nfc2(logic, A4, A5, "NFC2", VALID_TAGS[1], NUM_VALID_TAGS)
+  nfc2(logic, A4, A5, "C7", VALID_TAGS[1], NUM_VALID_TAGS, C7)
 {
 }
 

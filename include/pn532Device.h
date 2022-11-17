@@ -3,6 +3,10 @@
 #include "Arduino.h"
 #include <Adafruit_PN532.h>
 
+enum Piece    { PAWN, BISHOP, KNIGHT, ROOK, QUEEN, KING };
+enum Color    { WHITE, BLACK };
+enum Location { F2=1, C7=2 }; // Note: powers of 2 for bitwise operations
+
 class Logic;
 
 #define DELAY_BETWEEN_CARDS 500
@@ -16,7 +20,7 @@ enum RFID_STATE {INCORRECT, CORRECT, MISSING, UNKNOWN};
 class PN532Device {
   public:
     RFID_STATE state = UNKNOWN;
-    PN532Device(Logic &logic, uint8_t irq_PIN, uint8_t ss_PIN, const char* label, byte (*validTags)[4], uint8_t numberOfTags);
+    PN532Device(Logic &logic, uint8_t irq_PIN, uint8_t ss_PIN, const char* label, byte (*validTags)[4], uint8_t numberOfTags, Location loc);
     void setup();
     void handle();
 
@@ -32,6 +36,7 @@ class PN532Device {
     
     int irq_prev = 0;
     int irq_curr = 0;
+    Location location;
     long last_read_time = 0;
 
     byte (*tags)[4];

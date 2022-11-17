@@ -2,13 +2,33 @@
 #include "pn532Device.h"
 #include "logic.h"
 
-PN532Device::PN532Device(Logic &logic, uint8_t irq_PIN, uint8_t ss_PIN, const char* label, byte (*validTags)[4], uint8_t numberOfTags)
+struct ChessPiece {
+  Piece piece;
+  Color color;
+  uint8_t validLocations;
+  byte rfidTag[4];
+};
+
+const char *colorStrings[] = { "WHITE", "BLACK" };
+const char *pieceStrings[] = { "PAWN", "BISHOP", "KNIGHT", "ROOK", "QUEEN", "KING" };
+
+#define NUM_PIECES 5
+ChessPiece PIECES[NUM_PIECES] = {
+    {KING,   WHITE, F2,       { 0x04, 0x16, 0x22, 0x0A }},
+    {QUEEN,  BLACK, F2,       { 0x04, 0xBF, 0x21, 0x0A }},
+    {KNIGHT, BLACK, F2,       { 0x04, 0x8F, 0x1F, 0x0A }},
+    {ROOK,   WHITE, C7,       { 0x04, 0x2B, 0x21, 0x0A }},
+    {PAWN,   WHITE, F2 | C7,  { 0x04, 0xF9, 0x21, 0x0A }}
+};
+
+PN532Device::PN532Device(Logic &logic, uint8_t irq_PIN, uint8_t ss_PIN, const char* label, byte (*validTags)[4], uint8_t numberOfTags, Location loc)
 : _logic(logic),
   _nfc(PN532_SCK, PN532_MISO, PN532_MOSI, ss_PIN), 
   _label(label),
   _IRQ_PIN(irq_PIN), 
   tags(validTags),
-  _NUM_TAGS(numberOfTags)
+  _NUM_TAGS(numberOfTags), 
+  location(loc)
 {
 }
 
@@ -102,14 +122,25 @@ RFID_STATE PN532Device::cardDetected() {
 }
 
 bool PN532Device::compareTags() {
-  for ( uint8_t i = 0; i < _NUM_TAGS; i++ ) {
+  for ( uint8_t i = 0; i < NUM_PIECES; i++ ) {
     bool cardMatch = true;
-    for ( uint8_t j = 0; j < 4; j++ ) {
-        cardMatch = cardMatch && (readCards[j] == tags[i][j]);
-    }
+    ChessPiece p = PIECES[i];
 
-    if (cardMatch) {
-      return true;
+    // filter out pieces not meant for this location
+    if ( (location == F2 && ((F2 & p.validLocations) == F2)) ||
+         (location == C7 && ((C7 & p.validLocations) == C7)) ) 
+    {
+      //Serial.printf("looking at p:%d c:%d ps: %s cs: %s\n", p.piece, p.color, pieceStrings[p.piece], colorStrings[p.color]);   
+
+      for ( uint8_t j = 0; j < 4; j++ ) {
+          cardMatch = cardMatch && (readCards[j] == p.rfidTag[j]);
+      }
+
+      if (cardMatch) {
+        return true;
+      }  
+    } else {
+      //Serial.printf("IGNORING p:%d c:%d ps: %s cs: %s\n", p.piece, p.color, pieceStrings[p.piece], colorStrings[p.color]);  
     }
   }
 
