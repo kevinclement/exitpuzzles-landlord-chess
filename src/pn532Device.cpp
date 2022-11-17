@@ -25,13 +25,17 @@ ChessPiece PIECES[NUM_PIECES] = {
     {PAWN,   WHITE, F2 | C7,  { 0x04, 0xF9, 0x21, 0x0A }}
 };
 
-PN532Device::PN532Device(Logic &logic, uint8_t irq_PIN, uint8_t ss_PIN, const char* label, byte (*validTags)[4], uint8_t numberOfTags, Location loc)
+// TMP: 
+//   func def: 
+//      byte (*validTags)[4]
+//   private field: 
+//      byte (*tags)[4];
+
+PN532Device::PN532Device(Logic &logic, uint8_t irq_PIN, uint8_t ss_PIN, const char* label, Location loc)
 : _logic(logic),
   _nfc(PN532_SCK, PN532_MISO, PN532_MOSI, ss_PIN), 
   _label(label),
   _IRQ_PIN(irq_PIN), 
-  tags(validTags),
-  _NUM_TAGS(numberOfTags), 
   location(loc)
 {
 }

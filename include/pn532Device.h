@@ -20,7 +20,7 @@ enum RFID_STATE {INCORRECT, CORRECT, MISSING, UNKNOWN};
 class PN532Device {
   public:
     RFID_STATE state = UNKNOWN;
-    PN532Device(Logic &logic, uint8_t irq_PIN, uint8_t ss_PIN, const char* label, byte (*validTags)[4], uint8_t numberOfTags, Location loc);
+    PN532Device(Logic &logic, uint8_t irq_PIN, uint8_t ss_PIN, const char* label, Location loc);
     void setup();
     void handle();
 
@@ -29,7 +29,6 @@ class PN532Device {
     Adafruit_PN532 _nfc;
 
     uint8_t _IRQ_PIN;
-    uint8_t _NUM_TAGS;
     const char* _label;
     bool disabled = false;
     bool isInit = false;
@@ -39,7 +38,6 @@ class PN532Device {
     Location location;
     long last_read_time = 0;
 
-    byte (*tags)[4];
     byte readCards[4];
     
     void startListening();
