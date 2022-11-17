@@ -12,10 +12,14 @@ struct ChessPiece {
 const char *colorStrings[] = { "WHITE", "BLACK" };
 const char *pieceStrings[] = { "PAWN", "BISHOP", "KNIGHT", "ROOK", "QUEEN", "KING" };
 
-#define NUM_PIECES 5
+#define NUM_PIECES 7
 ChessPiece PIECES[NUM_PIECES] = {
     {KING,   WHITE, F2,       { 0x04, 0x16, 0x22, 0x0A }},
-    {QUEEN,  BLACK, F2,       { 0x04, 0xBF, 0x21, 0x0A }},
+    {QUEEN,  WHITE, F2,       { 0x04, 0xBF, 0x21, 0x0A }},
+
+    {KING,   BLACK, C7,       { 0x04, 0xC7, 0x21, 0x0A }},
+    {QUEEN,  BLACK, C7,       { 0x04, 0x97, 0x1F, 0x0A }},
+
     {KNIGHT, BLACK, F2,       { 0x04, 0x8F, 0x1F, 0x0A }},
     {ROOK,   WHITE, C7,       { 0x04, 0x2B, 0x21, 0x0A }},
     {PAWN,   WHITE, F2 | C7,  { 0x04, 0xF9, 0x21, 0x0A }}
