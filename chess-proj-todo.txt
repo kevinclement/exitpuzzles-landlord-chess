@@ -1,25 +1,26 @@
 == Drop Options ============================
 ============================================
+[ ] attract mode as Option
+  [ ] off by default
+[ ] switch head solve audio to same as drawer
+  [ ] sync lights with length of new audio
+[ ] head solve
+  [ ] blink led during autio and opening
+  [ ] led off after opened
+  [ ] after audio, open pieces drawer
+[ ] board solve
+  [ ] change audio zelda chest
+  [ ] sync lights to new chest audio
+  [ ] speaker light turns on when audio is played.  stays on after that forever
+  [ ] server: play longer zelda through speaker audio file
+  [ ] server: after file plays, trigger door open
 
-[ ] stepper rotation device
-  [ ] stepper + driver + code
-  [ ] tmp wood sample rotator piece
-  [ ] test motor is strong enough to drive it away with load on top
-[ ] midi style pivot arm T
-  [ ] I'll print this design next
-[ ] stepper or motor with a big wheel
-  [ ] when under load, wheel wont move
-[ ] Lock style solonoid
-[ ] pinch
-[ ] limp pinch and release
-
-
-
-
-[ ] bevelled 3d print funnel type lid
-  [ ] or route the wood stopper piece
 
 // == Housing =============
-[ ] cricket labeling of door (marie)
-[ ] paint stopper piece?
-	
+[x] cricket labeling of door (marie)
+
+--------------------------------------------------------
+[x] stepper rotation device
+  [x] stepper + driver + code
+  [x] tmp wood sample rotator piece
+  [x] test motor is strong enough to drive it away with load on top
