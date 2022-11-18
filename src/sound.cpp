@@ -38,10 +38,30 @@ void Sound::handle() {
   }
 }
 
+void Sound::beep(unsigned char speakerPin, int frequencyInHertz, long timeInMilliseconds)     // the sound producing function  
+{
+  int x;   
+  long delayAmount = (long)(1000000/frequencyInHertz); 
+  long loopTime = (long)((timeInMilliseconds*1000)/(delayAmount*2)); 
+  for (x=0;x<loopTime;x++)   
+  {   
+      digitalWrite(speakerPin,HIGH); 
+      delayMicroseconds(delayAmount); 
+      digitalWrite(speakerPin,LOW); 
+      delayMicroseconds(delayAmount); 
+  }
+}
+
 void Sound::bustTriggered() {
   state = PLAYING;
-  player1.playAsync(bustMelody);
-  player2.playAsync(bustMelody);
+  beep(BUZZER_PIN_1,1200,100);
+  delay(80);
+  beep(BUZZER_PIN_1,1200,100);
+  beep(BUZZER_PIN_1,1500,200);
+
+  // TODO: switch back to playAsync with both speakers but using their format.  no time now
+  // player1.playAsync(bustMelody);
+  // player2.playAsync(bustMelody);
 }
 
 void Sound::solved() {

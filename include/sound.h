@@ -14,6 +14,7 @@ class Sound {
     void setup();
     void handle();
 
+    void beep(unsigned char speakerPin, int frequencyInHertz, long timeInMilliseconds);
     void bustTriggered();
     void solved();
 

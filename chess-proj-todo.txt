@@ -5,7 +5,7 @@
 [ ] switch head solve audio to same as drawer
   [ ] sync lights with length of new audio
 [ ] head solve
-  [ ] blink led during autio and opening
+  [ ] blink led during audio and opening
   [ ] led off after opened
   [ ] after audio, open pieces drawer
 [ ] board solve
@@ -15,6 +15,7 @@
   [ ] server: play longer zelda through speaker audio file
   [ ] server: after file plays, trigger door open
 
+[ ] switch solved audio back to async when time
 
 // == Housing =============
 [x] cricket labeling of door (marie)
