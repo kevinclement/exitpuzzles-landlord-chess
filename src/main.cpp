@@ -31,6 +31,10 @@ void readAnySerialMessage() {
     logic.triggerSecond();
   } else if (msg == "status" || msg == "s") {
     logic.status();
+  } else if (msg == "blinkOn" || msg == "b") {
+    logic.cabinetLed.blinkOn();
+  } else if (msg == "blinkOff" || msg == "n") {
+    logic.cabinetLed.blinkOff();
   } else if (msg == "sound" || msg == "o") {
     logic.sound.bustTriggered();
   } else if (msg == "doorOn" || msg == "d") {
