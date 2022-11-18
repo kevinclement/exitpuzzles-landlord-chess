@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# advanced params --echo --quiet -f send_on_enter -f time
+
+pio device monitor -b 115200 -p /dev/ttyChess -f colorize
