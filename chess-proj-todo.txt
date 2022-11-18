@@ -4,10 +4,10 @@
   [ ] off by default
 [ ] switch head solve audio to same as drawer
   [ ] sync lights with length of new audio
-[ ] head solve
-  [ ] blink led during audio and opening
-  [ ] led off after opened
-  [ ] after audio, open pieces drawer
+[x] head solve
+  [x] blink led during audio and opening
+  [x] led off after opened
+  [x] after audio, open pieces drawer
 [ ] board solve
   [ ] change audio zelda chest
   [ ] sync lights to new chest audio

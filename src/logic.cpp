@@ -127,4 +127,5 @@ void Logic::triggerSecond() {
   rfidState = SOLVING;
   sound.solved();
   lights.triggerSecond();
+  speakerLed.enabled = true;
 }

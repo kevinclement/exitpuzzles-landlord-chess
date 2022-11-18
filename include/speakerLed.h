@@ -8,7 +8,7 @@ class Logic;
 
 class SpeakerLed {
   public:
-    bool enabled = true;
+    bool enabled = false;
     
     SpeakerLed(Logic &logic);
     void setup();
@@ -16,5 +16,4 @@ class SpeakerLed {
 
   private:
     Logic &_logic;
-    bool _prevEnabled = true;
 };

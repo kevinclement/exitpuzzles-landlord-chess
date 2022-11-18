@@ -13,12 +13,4 @@ void SpeakerLed::setup() {
 
 void SpeakerLed::handle() {
   digitalWrite(SPEAKER_LED_PIN, enabled ? HIGH : LOW);
-
-  if (_prevEnabled != enabled) {
-    Serial.print("speaker led change: ");
-    Serial.println(enabled ? "ENABLED" : "DISABLED");
-
-    _prevEnabled = enabled;
-    _logic.status();
-  }
 }
