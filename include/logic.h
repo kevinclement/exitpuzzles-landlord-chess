@@ -40,6 +40,7 @@ public:
   void triggerSecond();
   void triggerSecondStageTwo();
   void triggerFinal();
+  void finish();
 
 private:
   unsigned long bust_solved_time = 0;

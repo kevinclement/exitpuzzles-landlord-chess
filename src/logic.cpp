@@ -142,3 +142,9 @@ void Logic::triggerFinal() {
   speakerLed.blinkOn();
   status();
 }
+
+void Logic::finish() {
+  Serial.println("Finish triggered.  Opening door...");
+  speakerLed.blinkOff();
+  magnet.enabled = false;
+}
