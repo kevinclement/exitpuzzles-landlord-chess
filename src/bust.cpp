@@ -18,20 +18,11 @@ void Bust::handle() {
   bool _prevSwitched = isSwitched;
   int btnState = digitalRead(BTN_SWITCH_PIN);
 
-  // if (!btnState) {
-  //     pressedTime = 0;
-  //     isSwitched = false;
-  // }
-  // else {
-  //     if (pressedTime == 0) {
-  //         pressedTime = millis();
-  //     }
-  //     else if (millis() - pressedTime > BOUNCE_TIME_MS) {
-  //         isSwitched = true;
-  //     }
-  // }
-
-  if (btnState && !isSwitched) {
+  if (!btnState) {
+      pressedTime = 0;
+      isSwitched = false;
+  }
+  else {
       if (pressedTime == 0) {
           pressedTime = millis();
       }
@@ -39,6 +30,15 @@ void Bust::handle() {
           isSwitched = true;
       }
   }
+
+  // if (btnState && !isSwitched) {
+  //     if (pressedTime == 0) {
+  //         pressedTime = millis();
+  //     }
+  //     else if (millis() - pressedTime > BOUNCE_TIME_MS) {
+  //         isSwitched = true;
+  //     }
+  // }
   
   if (_prevSwitched != isSwitched) {
     Serial.print("bust: ");

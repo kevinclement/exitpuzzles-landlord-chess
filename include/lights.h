@@ -36,6 +36,7 @@ class Lights {
     bool solvingSecond  = false;
     bool solvedSecond   = false;
 
+    void solidOn();
     void fadeInAndOut();
     void sweep();
     void fancyPants();

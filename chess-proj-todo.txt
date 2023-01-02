@@ -1,27 +1,31 @@
-== Drop Options ============================
-============================================
+[ ] when head toggles on, that solves it permanently
+[ ] fix chess piece placement issues
+
+[ ] what changes did kyle want with LEDs?
+
+[ ] fix issue with tomb dns
+
 [ ] attract mode as Option
   [ ] off by default
+[ ] ability to turn off lights when room complete
 [ ] switch head solve audio to same as drawer
   [ ] sync lights with length of new audio
-[x] head solve
-  [x] blink led during audio and opening
-  [x] led off after opened
-  [x] after audio, open pieces drawer
 [ ] board solve
   [ ] change audio zelda chest
   [ ] sync lights to new chest audio
   [ ] speaker light turns on when audio is played.  stays on after that forever
   [ ] server: play longer zelda through speaker audio file
   [ ] server: after file plays, trigger door open
-
 [ ] switch solved audio back to async when time
 
-// == Housing =============
-[x] cricket labeling of door (marie)
 
 --------------------------------------------------------
 [x] stepper rotation device
   [x] stepper + driver + code
   [x] tmp wood sample rotator piece
   [x] test motor is strong enough to drive it away with load on top
+[x] head solve
+  [x] blink led during audio and opening
+  [x] led off after opened
+  [x] after audio, open pieces drawer
+[x] cricket labeling of door (marie)
