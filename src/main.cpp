@@ -3,8 +3,6 @@
 
 Logic logic;
 
-void(* resetFunc) (void) = 0;
-
 boolean checkTimePeriod (unsigned long &expireTime, unsigned long TimePeriod) {
   unsigned long currentMillis  = millis();
   if ( currentMillis - expireTime >= TimePeriod ) {
@@ -40,7 +38,7 @@ void readAnySerialMessage() {
   Serial.println("' command");
 
   if (msg == "reset" || msg == "reboot" || msg == "r") {
-    resetFunc();
+    ESP.restart();
   } else if (msg == "attract" || msg == "a") {    
     logic.lights.triggerAttractMode();
   } else if (msg == "solve1" || msg == "1") {
