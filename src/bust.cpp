@@ -34,7 +34,12 @@ void Bust::handle() {
   if (_prevSwitched != isSwitched) {
     Serial.print("bust: ");
     Serial.println(isSwitched ? "ON" : "OFF");
-    _logic.cabinetLed.enabled = isSwitched;
+
+    // if we've already solved the bust, keep the cabinet LED in sync with switch
+    if (_logic.bustState == SOLVED) {
+      _logic.cabinetLed.enabled = isSwitched;
+    }
+
     _logic.status();
   }
 }

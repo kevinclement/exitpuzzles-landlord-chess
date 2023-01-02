@@ -44,7 +44,7 @@ void Logic::handle() {
   }
 
   // only mark bust finished when done animating and wait some little bit of time
-  if (bustState == SOLVING && lights.first == PULSING && sound.state == STOPPED) {
+  if (bustState == SOLVING && sound.state == STOPPED) {
     if (bust_solved_time == 0) {
       bust_solved_time = millis();
     } else if(millis() - bust_solved_time > DELAY_FOR_SOLVES) {
@@ -54,6 +54,7 @@ void Logic::handle() {
       Serial.println("Bust finished sound and animation.  Marking solved.");
       bustState = SOLVED;
       cabinet.enabled = false;
+      cabinetLed.enabled = true;
       status();
     }
   }

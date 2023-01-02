@@ -25,6 +25,9 @@ public:
   Cabinet cabinet;
   CabinetLed cabinetLed;
   SpeakerLed speakerLed;
+
+  SOLVING_STATE bustState = NOT_SOLVED;
+  SOLVING_STATE rfidState = NOT_SOLVED;
   
   bool debug;
 
@@ -38,8 +41,6 @@ public:
 private:
   long bust_solved_time = 0;
   long rfid_solved_time = 0;
-  SOLVING_STATE bustState = NOT_SOLVED;
-  SOLVING_STATE rfidState = NOT_SOLVED;
   bool solved;
 };
 
