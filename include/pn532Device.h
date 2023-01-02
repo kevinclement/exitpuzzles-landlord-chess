@@ -33,10 +33,12 @@ class PN532Device {
     bool disabled = false;
     bool isInit = false;
     
-    int irq_prev = 0;
     int irq_curr = 0;
+    int irq_steady = 0;
+    int irq_flick = 0;
     Location location;
     long last_read_time = 0;
+    unsigned long irq_debounce_time = 0;
 
     byte readCards[4];
     

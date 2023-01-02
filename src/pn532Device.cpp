@@ -91,18 +91,26 @@ void PN532Device::handle() {
       irq_curr = digitalRead(_IRQ_PIN);
 
       // When the IRQ is pulled low - the reader has got something for us.
-      if (irq_curr == LOW && irq_prev == HIGH) {
-        RFID_STATE st = cardDetected();
-        checkForStateChange(st);
+      if (irq_curr != irq_flick) {
+        irq_debounce_time = millis();
+        irq_flick = irq_curr;
       }
 
-      irq_prev = irq_curr;
+      if ((millis() - irq_debounce_time) > 100) {
+        
+        if(irq_steady == HIGH && irq_curr == LOW) {
+          RFID_STATE st = cardDetected();
+          checkForStateChange(st);
+        }
+
+        irq_steady = irq_curr;
+      }
   }
 }
 
 void PN532Device::startListening() {
   // Reset our IRQ indicators
-  irq_prev = irq_curr =  HIGH;
+  irq_steady = irq_flick = irq_curr =  HIGH;
   _nfc.startPassiveTargetIDDetection(PN532_MIFARE_ISO14443A);
 }
 
@@ -114,7 +122,7 @@ RFID_STATE PN532Device::cardDetected() {
   // Wait for an ISO14443A type cards (Mifare, etc.).  When one is found
   // 'uid' will be populated with the UID, and uidLength will indicate
   // if the uid is 4 bytes (Mifare Classic) or 7 bytes (Mifare Ultralight)  
-  if (_nfc.readPassiveTargetID(PN532_MIFARE_ISO14443A, &uid[0], &uidLength)) {
+  if (_nfc.readPassiveTargetID(PN532_MIFARE_ISO14443A, &uid[0], &uidLength, 100)) {
     for (uint8_t i = 0; i < 4; i++) {
       readCards[i] = uid[i];
     }
@@ -122,6 +130,8 @@ RFID_STATE PN532Device::cardDetected() {
     last_read_time = millis();
 
     st = compareTags() ? CORRECT : INCORRECT;
+  } else {
+    // Serial.println("Card read FAILED!");
   }
 
   // The reader will be enabled again after DELAY_BETWEEN_CARDS ms will pass.

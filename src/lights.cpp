@@ -33,8 +33,7 @@ void Lights::handle() {
   } else if (first == SWEEPING || second == SWEEPING) {
     sweep();
   } else {
-    // fadeInAndOut();
-    solidOn();
+    fadeInAndOut();
   }
 
   FastLED.show();
@@ -92,14 +91,6 @@ void Lights::sweep()
           loops = 0;
           FastLED.clear(true);
         }
-    }
-  }
-}
-
-void Lights::solidOn() {
-  for(int i=0; i<NUM_LEDS; i++) {
-    if ((i%2 == 0 && first == PULSING) || (i%2 !=0 && second == PULSING)) {
-      leds[i] = CHSV(HUE_GREEN,255,MAX_BRIGHTNESS);
     }
   }
 }
