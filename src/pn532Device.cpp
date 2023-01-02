@@ -82,9 +82,9 @@ void PN532Device::handle() {
     checkForStateChange(MISSING);
   }
 
-  if (disabled) {
+  if (delayed) {
     if (millis() - last_read_time > DELAY_BETWEEN_CARDS) {
-      disabled = false;
+      delayed = false;
       startListening();
     }
   } else {
@@ -135,7 +135,7 @@ RFID_STATE PN532Device::cardDetected() {
   }
 
   // The reader will be enabled again after DELAY_BETWEEN_CARDS ms will pass.
-  disabled = true;
+  delayed = true;
 
   return st;
 }

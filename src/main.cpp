@@ -50,6 +50,12 @@ void readAnySerialMessage() {
   } else if (msg == "lightsOff" || msg == "h") {
     Serial.println("Turning all lights off");
     logic.lights.triggerLightsOff();
+  } else if (msg == "piecesOff" || msg == "k") {
+    Serial.println("Disabling chess pieces...");
+    logic.togglePiecesDisabled(true);
+  } else if (msg == "piecesOn" || msg == "l") {
+    Serial.println("Enabling chess pieces...");
+    logic.togglePiecesDisabled(false);
   } else if (msg == "debug" || msg == "x") {
     debug();
   } else {

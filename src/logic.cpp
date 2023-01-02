@@ -53,7 +53,7 @@ void Logic::handle() {
   }
   
   // check for second final solved state
-  if (rfidState == NOT_SOLVED && rfid.nfc1.state == CORRECT && rfid.nfc2.state == CORRECT) {
+  if (rfidState == NOT_SOLVED && rfid.nfc1.state == CORRECT && rfid.nfc2.state == CORRECT && !piecesDisabled) {
     Serial.println("Both RFIDs correct.  Triggering second.");    
     triggerSecond();
   }
@@ -72,6 +72,11 @@ void Logic::handle() {
   }
 }
 
+void Logic::togglePiecesDisabled(bool disabled) {
+  piecesDisabled = disabled;
+  status();
+}
+
 void Logic::status() {
   char cMsg[254];
   sprintf(cMsg, 
@@ -86,6 +91,7 @@ void Logic::status() {
       "cabinetLed:%s,"
       "speakerLed:%s,"
       "lights:%s,"
+      "piecesDisabled:%s,"
       "solved:%s"
 
       "\r\n"
@@ -99,7 +105,8 @@ void Logic::status() {
       cabinet.enabled             ? "enabled" : "disabled",
       cabinetLed.enabled          ? "enabled" : "disabled",
       speakerLed.enabled          ? "enabled" : "disabled",
-      lights.second == OFF         ? "false"   : "true",
+      lights.second == OFF        ? "false"   : "true",
+      piecesDisabled              ? "true"    : "false",
       solved                      ? "true"    : "false"
   );
 

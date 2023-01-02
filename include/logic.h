@@ -34,6 +34,7 @@ public:
   void setup();
   void handle();
   void status();
+  void togglePiecesDisabled(bool);
   
   void triggerFirst();
   void triggerFirstStageTwo();
@@ -46,6 +47,7 @@ private:
   unsigned long bust_solved_time = 0;
   unsigned long rfid_solved_time = 0;
   unsigned long final_solved_time = 0;
+  bool piecesDisabled = false;
   bool solved;
 };
 

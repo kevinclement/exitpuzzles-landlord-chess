@@ -30,7 +30,7 @@ class PN532Device {
 
     uint8_t _IRQ_PIN;
     const char* _label;
-    bool disabled = false;
+    bool delayed = false;
     bool isInit = false;
     
     int irq_curr = 0;
