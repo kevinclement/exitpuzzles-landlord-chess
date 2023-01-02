@@ -108,9 +108,9 @@ void Lights::fadeInAndOut() {
 
   EVERY_N_MILLISECONDS(FADE_SPEED){
     for(int i=0; i<NUM_LEDS; i++) {
-      if ((i%2 == 0 && first == PULSING) || (i%2 !=0 && second == PULSING)) {
+      // if ((i%2 == 0 && first == PULSING) || (i%2 !=0 && second == PULSING)) {
         leds[i] = CHSV(HUE_GREEN,255,val);
-      }
+      // }
     }
     
     if (fadeDirection == 1) {
