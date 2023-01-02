@@ -47,7 +47,7 @@ void readAnySerialMessage() {
     logic.cabinetLed.enabled = false;
   } else if (msg == "finish" || msg == "i") {
     logic.finish();
-  } else if (msg == "h") {
+  } else if (msg == "lightsOff" || msg == "h") {    
     Serial.println("Turning all lights off");
     logic.lights.triggerLightsOff();
   } else if (msg == "debug" || msg == "x") {
