@@ -5,6 +5,24 @@ Logic logic;
 
 void(* resetFunc) (void) = 0;
 
+boolean checkTimePeriod (unsigned long &expireTime, unsigned long TimePeriod) {
+  unsigned long currentMillis  = millis();
+  if ( currentMillis - expireTime >= TimePeriod ) {
+    expireTime = currentMillis;
+    return true;
+  }
+  else return false;
+}
+
+void heartBeatBlink() {
+  static unsigned long blinkTimer;
+  pinMode(LED_BUILTIN, OUTPUT);
+
+  if (checkTimePeriod(blinkTimer, 100)) {
+    digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN) );
+  }
+}
+
 void debug() {
   Serial.println("toggling debug of device...");
   logic.debug = !logic.debug;
@@ -68,6 +86,7 @@ void setup() {
 }
 
 void loop() {
+  heartBeatBlink();
   readAnySerialMessage();
   logic.handle();
 }
