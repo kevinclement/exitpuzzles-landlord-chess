@@ -30,15 +30,6 @@ void Bust::handle() {
           isSwitched = true;
       }
   }
-
-  // if (btnState && !isSwitched) {
-  //     if (pressedTime == 0) {
-  //         pressedTime = millis();
-  //     }
-  //     else if (millis() - pressedTime > BOUNCE_TIME_MS) {
-  //         isSwitched = true;
-  //     }
-  // }
   
   if (_prevSwitched != isSwitched) {
     Serial.print("bust: ");
