@@ -8,10 +8,9 @@ class Logic;
 
 class SpeakerLed {
   public:
-    bool blinking = false;
+    SpeakerLed(Logic &logic);
     bool enabled = false;
     
-    SpeakerLed(Logic &logic);
     void setup();
     void handle();
     void blinkOn();
@@ -19,4 +18,5 @@ class SpeakerLed {
 
   private:
     Logic &_logic;
+    bool blinking = false;
 };

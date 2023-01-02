@@ -36,11 +36,15 @@ public:
   void status();
   
   void triggerFirst();
+  void triggerFirstStageTwo();
   void triggerSecond();
+  void triggerSecondStageTwo();
+  void triggerFinal();
 
 private:
-  long bust_solved_time = 0;
-  long rfid_solved_time = 0;
+  unsigned long bust_solved_time = 0;
+  unsigned long rfid_solved_time = 0;
+  unsigned long final_solved_time = 0;
   bool solved;
 };
 

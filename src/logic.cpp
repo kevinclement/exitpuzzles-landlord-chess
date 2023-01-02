@@ -48,14 +48,7 @@ void Logic::handle() {
     if (bust_solved_time == 0) {
       bust_solved_time = millis();
     } else if(millis() - bust_solved_time > DELAY_FOR_SOLVES) {
-
-      // NOTE: if we wanted to, we could make it so toggling off bust before animation finished would reset it all
-      // right now, triggering once will solve it, and thats it, nothing else should happen. 
-      Serial.println("Bust finished sound and animation.  Marking solved.");
-      bustState = SOLVED;
-      cabinet.enabled = false;
-      cabinetLed.enabled = true;
-      status();
+      triggerFirstStageTwo();
     }
   }
   
@@ -70,17 +63,12 @@ void Logic::handle() {
     if (rfid_solved_time == 0) {
       rfid_solved_time = millis();
     } else if (millis() - rfid_solved_time > DELAY_FOR_SOLVES) {
-      Serial.println("RFID finished sound and animation.  Marking solved.");
-      rfidState = SOLVED;
-      status();
+      triggerSecondStageTwo();
     }
   }
 
   if (!solved && bustState == SOLVED && rfidState == SOLVED) {
-    Serial.println("All parts solved.  Marking puzzle solved and turning off magnet.");
-    solved = true;
-    magnet.enabled = false;
-    status();
+    triggerFinal();
   }
 }
 
@@ -121,9 +109,36 @@ void Logic::triggerFirst() {
   sound.bustTriggered();
 }
 
+void Logic::triggerFirstStageTwo() {
+  // NOTE: if we wanted to, we could make it so toggling off bust before animation finished would reset it all
+  // right now, triggering once will solve it, and thats it, nothing else should happen. 
+  Serial.println("Bust finished sound and animation.  Marking solved.");
+  bustState = SOLVED;
+  cabinet.enabled = false;
+  cabinetLed.enabled = true;
+  status();
+}
+
 void Logic::triggerSecond() {
   rfidState = SOLVING;
   sound.solved();
   lights.triggerSecond();
-  speakerLed.enabled = true;
+}
+
+void Logic::triggerSecondStageTwo() {
+  Serial.println("RFID finished sound and animation.  Marking solved.");
+  rfidState = SOLVED;
+  status();
+}
+
+void Logic::triggerFinal() {
+  Serial.println("All parts solved.  Marking puzzle solved.");
+
+  // NOTE: we are not turning off magnet here.  we need to control that from the pi because
+  // of the sound playing from there.  Then it will handle disabling magnet using command line 
+  // directly.
+  
+  solved = true;
+  speakerLed.blinkOn();
+  status();
 }

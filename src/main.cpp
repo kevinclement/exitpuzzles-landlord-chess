@@ -45,8 +45,6 @@ void readAnySerialMessage() {
     logic.cabinet.enabled = false;
   } else if (msg == "cabinetLedOff" || msg == "z") {
     logic.cabinetLed.enabled = false;
-  } else if (msg == "speakerLedOff" || msg == "o") {
-    logic.speakerLed.enabled = false;
   } else if (msg == "h") {
     Serial.println("Turning all lights off");
     logic.lights.triggerLightsOff();
