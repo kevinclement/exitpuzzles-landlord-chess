@@ -44,16 +44,16 @@ void Lights::triggerAttractMode() {
 }
 
 void Lights::triggerFirst() {
-  pos = NUM_LEDS - 1;
-  sweepRight = true;
+  pos = -1;
+  sweepRight = false;
   first = SWEEPING;
   attractMode = false;
   FastLED.clear(true);
 }
 
 void Lights::triggerSecond() {
-  pos = -1;
-  sweepRight = false;
+  pos = NUM_LEDS - 1;
+  sweepRight = true;
   second = SWEEPING;
   attractMode = false;
   FastLED.clear(true);
