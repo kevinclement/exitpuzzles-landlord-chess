@@ -34,6 +34,7 @@ void Bust::handle() {
   if (_prevSwitched != isSwitched) {
     Serial.print("bust: ");
     Serial.println(isSwitched ? "ON" : "OFF");
+    _logic.cabinetLed.enabled = isSwitched;
     _logic.status();
   }
 }
