@@ -3,24 +3,6 @@
 
 Logic logic;
 
-boolean checkTimePeriod (unsigned long &expireTime, unsigned long TimePeriod) {
-  unsigned long currentMillis  = millis();
-  if ( currentMillis - expireTime >= TimePeriod ) {
-    expireTime = currentMillis;
-    return true;
-  }
-  else return false;
-}
-
-void heartBeatBlink() {
-  static unsigned long blinkTimer;
-  pinMode(LED_BUILTIN, OUTPUT);
-
-  if (checkTimePeriod(blinkTimer, 100)) {
-    digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN) );
-  }
-}
-
 void debug() {
   Serial.println("toggling debug of device...");
   logic.debug = !logic.debug;
@@ -48,9 +30,9 @@ void readAnySerialMessage() {
   } else if (msg == "status" || msg == "s") {
     logic.status();
   } else if (msg == "blinkOn" || msg == "b") {
-    logic.cabinetLed.blinkOn();
+    logic.speakerLed.blinkOn();
   } else if (msg == "blinkOff" || msg == "n") {
-    logic.cabinetLed.blinkOff();
+    logic.speakerLed.blinkOff();
   } else if (msg == "sound" || msg == "o") {
     logic.sound.bustTriggered();
   } else if (msg == "doorOn" || msg == "d") {
@@ -87,7 +69,6 @@ void setup() {
 }
 
 void loop() {
-  heartBeatBlink();
   readAnySerialMessage();
   logic.handle();
 }
