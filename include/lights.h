@@ -31,6 +31,8 @@ class Lights {
   private:
     Logic &_logic;
 
+    unsigned long pulsing_time = 0;
+
     bool attractMode    = false;
     bool solvingFirst   = false;
     bool solvedFirst    = false;

@@ -3,11 +3,12 @@
 #include "logic.h"
 #include <FastLED.h>
 
-#define MAX_BRIGHTNESS  180
-#define MIN_BRIGHTNESS  75
-#define FADE_SPEED      19
-#define HUE_GREEN       96  // Green: found in example lib, under HUE_GREEN  
-#define MAX_LOOPS       3
+#define MAX_BRIGHTNESS        180
+#define MIN_BRIGHTNESS        75
+#define FADE_SPEED            19
+#define HUE_GREEN             96      // Green: found in example lib, under HUE_GREEN  
+#define MAX_LOOPS             3
+#define PULSE_MODE_TIMEOUT_MS 300000  // 5-mins
 
 CRGB leds[NUM_LEDS];      // the array of leds
 int loops = 0;            // how many loops we've done on a solve
@@ -33,7 +34,15 @@ void Lights::handle() {
   } else if (first == SWEEPING || second == SWEEPING) {
     sweep();
   } else if (first == PULSING || second == PULSING) {
-    fadeInAndOut();
+
+    // check for timeout and switch to attract mode if its been long time in pulse mode
+    if (pulsing_time > 0 && millis() - pulsing_time > PULSE_MODE_TIMEOUT_MS) {
+      Serial.println("PULSE MODE TIMEOUT.  Switching to attract mode for the remainder...");
+      second = ATTRACT;
+      attractMode = true; 
+    } else {
+      fadeInAndOut();
+    }
   }
 
   FastLED.show();
@@ -56,6 +65,7 @@ void Lights::triggerSecond() {
   sweepRight = true;
   second = SWEEPING;
   attractMode = false;
+  pulsing_time = 0;
   FastLED.clear(true);
 }
 
@@ -98,6 +108,7 @@ void Lights::sweep()
           }
           loops = 0;
           FastLED.clear(true);
+          pulsing_time = millis();
         }
     }
   }
