@@ -85,6 +85,7 @@ void Logic::status() {
       "cabinet:%s,"
       "cabinetLed:%s,"
       "speakerLed:%s,"
+      "lights:%s,"
       "solved:%s"
 
       "\r\n"
@@ -98,6 +99,7 @@ void Logic::status() {
       cabinet.enabled             ? "enabled" : "disabled",
       cabinetLed.enabled          ? "enabled" : "disabled",
       speakerLed.enabled          ? "enabled" : "disabled",
+      lights.second == OFF         ? "false"   : "true",
       solved                      ? "true"    : "false"
   );
 

@@ -64,6 +64,7 @@ void Lights::triggerLightsOff() {
   first = second = OFF;
   attractMode = false;
   FastLED.clear(true);
+  _logic.status();
 }
 
 void Lights::sweep()
