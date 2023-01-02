@@ -118,7 +118,6 @@ void Logic::status() {
 void Logic::triggerFirst() {
   bustState = SOLVING;
   sound.bustTriggered();
-  lights.triggerFirst();
 }
 
 void Logic::triggerSecond() {
