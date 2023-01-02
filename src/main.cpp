@@ -66,8 +66,8 @@ void readAnySerialMessage() {
   } else if (msg == "speakerLedOff" || msg == "o") {
     logic.speakerLed.enabled = false;
   } else if (msg == "h") {
-    Serial.println("turning lights off");
-    lights.triggerLightsOff();
+    Serial.println("Turning all lights off");
+    logic.lights.triggerLightsOff();
   } else if (msg == "debug" || msg == "x") {
     debug();
   } else {

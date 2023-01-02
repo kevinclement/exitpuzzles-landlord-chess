@@ -59,7 +59,7 @@ void Lights::triggerSecond() {
   FastLED.clear(true);
 }
 
-void triggerLightsOff() {
+void Lights::triggerLightsOff() {
   pos = -1;
   first = second = OFF;
   attractMode = false;
