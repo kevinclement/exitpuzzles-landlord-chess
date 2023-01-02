@@ -63,7 +63,6 @@ void setup() {
   Serial.println("Chess Board by kevinc...\n");
 
   logic.setup();
-  logic.status();
 }
 
 void loop() {
