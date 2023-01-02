@@ -32,7 +32,7 @@ void Lights::handle() {
     fancyPants();
   } else if (first == SWEEPING || second == SWEEPING) {
     sweep();
-  } else {
+  } else if (first == PULSING || second == PULSING) {
     fadeInAndOut();
   }
 
@@ -55,6 +55,13 @@ void Lights::triggerSecond() {
   pos = -1;
   sweepRight = false;
   second = SWEEPING;
+  attractMode = false;
+  FastLED.clear(true);
+}
+
+void triggerLightsOff() {
+  pos = -1;
+  first = second = OFF;
   attractMode = false;
   FastLED.clear(true);
 }

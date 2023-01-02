@@ -12,13 +12,13 @@
 
 class Logic;
 
-enum LIGHTS_STATE {ATTRACT, SWEEPING, PULSING};
+enum LIGHTS_STATE {OFF, ATTRACT, SWEEPING, PULSING};
 
 class Lights {
   public:
     bool enabled = false;
-    LIGHTS_STATE first = ATTRACT;
-    LIGHTS_STATE second = ATTRACT;
+    LIGHTS_STATE first = OFF;
+    LIGHTS_STATE second = OFF;
 
     Lights(Logic &logic);
     void setup();
@@ -26,11 +26,12 @@ class Lights {
     void triggerFirst();
     void triggerSecond();
     void triggerAttractMode();
+    void triggerLightsOff();
 
   private:
     Logic &_logic;
 
-    bool attractMode    = true;
+    bool attractMode    = false;
     bool solvingFirst   = false;
     bool solvedFirst    = false;
     bool solvingSecond  = false;
