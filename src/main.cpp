@@ -33,8 +33,10 @@ void readAnySerialMessage() {
     logic.speakerLed.blinkOn();
   } else if (msg == "blinkOff" || msg == "n") {
     logic.speakerLed.blinkOff();
-  } else if (msg == "sound" || msg == "o") {
+  } else if (msg == "soundBust" || msg == "o") {
     logic.sound.bustTriggered();
+  } else if (msg == "soundBoard" || msg == "p") {
+    logic.sound.solved();
   } else if (msg == "doorOn" || msg == "d") {
     logic.magnet.enabled = true;
   } else if (msg == "doorOff" || msg == "f") {

@@ -7,7 +7,7 @@
 #define MIN_BRIGHTNESS        75
 #define FADE_SPEED            19
 #define HUE_GREEN             96      // Green: found in example lib, under HUE_GREEN  
-#define MAX_LOOPS             3
+#define MAX_LOOPS             2
 #define PULSE_MODE_TIMEOUT_MS 300000  // 5-mins
 
 CRGB leds[NUM_LEDS];      // the array of leds
