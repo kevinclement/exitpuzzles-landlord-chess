@@ -14,8 +14,8 @@ const char *pieceStrings[] = { "PAWN", "BISHOP", "KNIGHT", "ROOK", "QUEEN", "KIN
 
 #define NUM_PIECES 2
 ChessPiece PIECES[NUM_PIECES] = {
-    {QUEEN, BLACK, F2, { 0x04, 0x13, 0x21, 0x0A }},
-    {KING,  WHITE, C7, { 0x04, 0x0E, 0x22, 0x0A }},
+    {QUEEN, BLACK, C7, { 0x04, 0x13, 0x21, 0x0A }},
+    {KING,  WHITE, F2, { 0x04, 0x0E, 0x22, 0x0A }},
 };
 
 // {KING,   WHITE, F2,       { 0x04, 0x16, 0x22, 0x0A }},
