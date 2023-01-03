@@ -1,23 +1,17 @@
-[ ] when head toggles on, that solves it permanently
-[ ] fix chess piece placement issues
-
-[ ] what changes did kyle want with LEDs?
-
-[ ] fix issue with tomb dns
-
-[ ] attract mode as Option
-  [ ] off by default
-[ ] ability to turn off lights when room complete
-[ ] switch head solve audio to same as drawer
-  [ ] sync lights with length of new audio
-[ ] board solve
-  [ ] change audio zelda chest
-  [ ] sync lights to new chest audio
-  [ ] speaker light turns on when audio is played.  stays on after that forever
-  [ ] server: play longer zelda through speaker audio file
-  [ ] server: after file plays, trigger door open
-[ ] switch solved audio back to async when time
-
+[x] when head toggles on, that solves it permanently
+[x] fix chess piece placement issues
+[x] attract mode as Option
+  [x] off by default
+[x] ability to turn off lights when room complete
+[x] switch head solve audio to same as drawer
+  [x] sync lights with length of new audio
+[x] board solve
+  [x] change audio zelda chest
+  [x] sync lights to new chest audio
+  [x] speaker light blinks when zelda file is played
+  [x] server: play longer zelda through speaker audio file
+  [x] server: after file plays, trigger door open
+[x] switch solved audio back to async when time
 
 --------------------------------------------------------
 [x] stepper rotation device
