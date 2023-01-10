@@ -40,6 +40,11 @@ void Logic::handle() {
   // check for bust
   if (bustState == NOT_SOLVED && bust.isSwitched) {
     Serial.println("Bust turned on.  Triggering first.");
+    triggerFirstOne();
+  }
+
+  if (bustState == PRE_SOLVE) {
+    delay(1000);
     triggerFirst();
   }
 
@@ -118,13 +123,17 @@ void Logic::triggerFirst() {
   sound.bustTriggered();
 }
 
+void Logic::triggerFirstOne() {
+  bustState = PRE_SOLVE;
+  cabinetLed.enabled = true;
+}
+
 void Logic::triggerFirstStageTwo() {
   // NOTE: if we wanted to, we could make it so toggling off bust before animation finished would reset it all
   // right now, triggering once will solve it, and thats it, nothing else should happen. 
   Serial.println("Bust finished sound and animation.  Marking solved.");
   bustState = SOLVED;
   cabinet.enabled = false;
-  cabinetLed.enabled = true;
   status();
 }
 

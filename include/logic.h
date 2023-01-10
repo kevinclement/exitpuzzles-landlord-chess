@@ -12,7 +12,7 @@
 
 #define DELAY_FOR_SOLVES 500
 
-enum SOLVING_STATE {NOT_SOLVED, SOLVING, SOLVED};
+enum SOLVING_STATE {NOT_SOLVED, PRE_SOLVE, SOLVING, SOLVED};
 
 class Logic {
 public:
@@ -37,6 +37,7 @@ public:
   void togglePiecesDisabled(bool);
   
   void triggerFirst();
+  void triggerFirstOne();
   void triggerFirstStageTwo();
   void triggerSecond();
   void triggerSecondStageTwo();
